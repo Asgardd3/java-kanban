@@ -1,16 +1,16 @@
-import java.util.ArrayList;
-
 public class SubTask extends Task {
-    public Integer epicId;
-    private Status status;
-    ArrayList<SubTask> subTasks;
+    private int epicId;
 
-    public SubTask(String name, String description,Integer id) {
-        super(name, description,id);
-
+    public SubTask(String name, String description,Status status,int epicId) {
+        super(name, description,status);
+        this.epicId = epicId;
     }
-    public SubTask(String name, String description,Integer id,Status status) {
-        super(name, description,id,status);
 
+    public int getEpicId() {
+        return epicId;
+    }
+
+    public void setEpicId(int id) {
+        this.epicId = id;
     }
 }

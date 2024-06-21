@@ -3,10 +3,10 @@ import java.util.Objects;
 public class Task {
     private String name;
     private String description;
-    public  Integer id;
+    public int id;
     private Status status;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
@@ -30,23 +30,16 @@ public class Task {
         return Objects.hash(getName(), getDescription(), id);
     }
 
-    public Task(String name, String description, Integer id) {
+    public Task(String name, String description, Status status) {
         this.name = name;
         this.description = description;
-        this.id = id;
-        this.status = Status.NEW;
-    }
-
-    public Task(String name, String description, Integer id,Status status) {
-        this.name = name;
-        this.description = description;
-        this.id = id;
+        //this.id = id;
         this.status = status;
     }
 
     @Override
     public String toString() {
-        return "Task{" +
+        return "Info{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", id=" + id +
@@ -68,6 +61,10 @@ public class Task {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }

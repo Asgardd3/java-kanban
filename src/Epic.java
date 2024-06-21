@@ -1,33 +1,28 @@
 import java.util.ArrayList;
+
 public class Epic extends Task {
-    private ArrayList<Integer> subTasksId = new ArrayList<>();
-    private Status status;
+    private ArrayList<Integer> subTasksIds;
 
-    public Epic(String name, String description, ArrayList<SubTask> subTasks, Status status, Integer id) {
-        super(name, description, id);
+    public Epic(String name, String description, ArrayList<Integer> subTasksIds) {
+        super(name, description, Status.NEW);
+        this.subTasksIds = subTasksIds;
     }
 
-    public Epic(String name, String description, Integer id) {
-        super(name, description, id);
+    public ArrayList<Integer> getSubTasksIds() {
+        return subTasksIds;
     }
 
-    public ArrayList<Integer> getSubTasksId() {
-        return subTasksId;
+    public void addSubTasksId(int subTasksId) {
+        this.subTasksIds.add(subTasksId);
     }
 
-    public void addSubTasksId(Integer subTasksId) {
-        this.subTasksId.add(subTasksId);
-    }
-
-    public void removeSubTasksId(Integer subTasksId) {
-        for (int i = 0; i < this.subTasksId.size(); i++) {
-            if (this.subTasksId.get(i).equals(subTasksId)) {
-                this.subTasksId.remove(i);
-                break;
-
-            }
-            //this.subTasksId.remove(subTasksId);
-
+    public void removeSubTasksId(int subTasksId) {
+        if (subTasksIds != null) {
+            subTasksIds.remove((Integer) subTasksId);
         }
+    }
+
+    public void removeAll() {
+        this.subTasksIds.clear();
     }
 }
