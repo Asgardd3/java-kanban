@@ -53,20 +53,16 @@ public class Main {
         //Тест из задания
         System.out.println("Теперь тестируем функционал по заданию");
         System.out.println("Добавляем 2 подзадачи и 1 эпик");
-        taskManager.addSubTask(new SubTask("Подзадача 4", "Описание 4", Status.NEW, 0));
-        taskManager.addSubTask(new SubTask("Подзадача 5", "Описание 5", Status.NEW, 0));
-        taskManager.addEpic(new Epic("Эпик 4", "Описание 4", new ArrayList<>()));
+
+        taskManager.addEpic(new Epic("Эпик 4", "Описание 4"));
+        taskManager.addSubTask(new SubTask("Подзадача 4", "Описание 4", Status.NEW, 7));
+        taskManager.addSubTask(new SubTask("Подзадача 5", "Описание 5", Status.NEW, 7));
         printAll(taskManager);
-        System.out.println("Привязываем задачу к эпику");
-        taskManager.getSubTaskById(7).setEpicId(9);//taskManager.getEpicById(9) addSubTaskToEpic(taskManager.getEpicById(9), taskManager.getSubTaskById(7));
-        taskManager.getSubTaskById(8).setEpicId(9);
-        taskManager.getEpicById(9).addSubTasksId(7);
-        taskManager.getEpicById(9).addSubTasksId(8);
         //taskManager.addSubTaskToEpic(taskManager.getEpicById(9), taskManager.getSubTaskById(8));
         printAll(taskManager);
 
         System.out.println("Меняем у 4 подзадачи описание и статус");
-        SubTask subTask2 = taskManager.getSubTaskById(7);
+        SubTask subTask2 = taskManager.getSubTaskById(8);
         subTask2.setName("Подзадача 4 (update)");
         subTask2.setDescription("Описание 4 (update)");
         subTask2.setStatus(Status.DONE);
@@ -74,22 +70,25 @@ public class Main {
         printAll(taskManager);
 
         System.out.println("Меняем у 5 подзадачи описание и статус");
-        SubTask subTask3 = taskManager.getSubTaskById(8);
+        SubTask subTask3 = taskManager.getSubTaskById(9);
         subTask3.setName("Подзадача 5 (update)");
         subTask3.setDescription("Описание 5 (update)");
         subTask3.setStatus(Status.DONE);
         taskManager.updateSubTask(subTask3);
         printAll(taskManager);
 
+        ArrayList<SubTask> subTasks = taskManager.getAllSubTasksByEpicId(7);
+        //Проверяем getAllSubTasksByEpicId
+
         //Удаляем задачу из эпика (DONE)
         System.out.println("Удаляем одну из подзадач (подзадача 4)");
-        taskManager.deleteSubTaskById(7);
-        printAll(taskManager);
-        System.out.println("Удаляем одну из подзадач (подзадача 5)");
         taskManager.deleteSubTaskById(8);
         printAll(taskManager);
+        System.out.println("Удаляем одну из подзадач (подзадача 5)");
+        taskManager.deleteSubTaskById(9);
+        printAll(taskManager);
         System.out.println("Удаляем эпик 4");
-        taskManager.deleteEpicById(9);
+        taskManager.deleteEpicById(7);
         printAll(taskManager);
 
     }
@@ -110,14 +109,14 @@ public class Main {
 
     public static void allTestData(TaskManager taskManager) {
         //Создаем эпики
-        taskManager.addEpic(new Epic("Эпик 1", "Описание 1", new ArrayList<>()));
-        taskManager.addEpic(new Epic("Эпик 1", "Описание 1", new ArrayList<>()));
+        taskManager.addEpic(new Epic("Эпик 1", "Описание 1"));
+        taskManager.addEpic(new Epic("Эпик 1", "Описание 1"));
         //Создаем задачи
         taskManager.addTask(new Task("Задача 1", "Описание 1", Status.NEW));
         taskManager.addTask(new Task("Задача 2", "Описание 2", Status.NEW));
         //Создаем подзадачи
-        taskManager.addSubTask(new SubTask("Подзадача 1", "Описание 1",  Status.NEW, 0));
-        taskManager.addSubTask(new SubTask("Подзадача 2", "Описание 2",  Status.NEW, 0));
+        taskManager.addSubTask(new SubTask("Подзадача 1", "Описание 1",  Status.NEW, 2));
+        taskManager.addSubTask(new SubTask("Подзадача 2", "Описание 2",  Status.NEW, 2));
     }
 
 
