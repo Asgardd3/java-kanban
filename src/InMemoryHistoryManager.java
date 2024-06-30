@@ -8,10 +8,18 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
     @Override
     public void add(Task task)  {
-        //Р”РѕР±Р°РІРёС‚СЊ Р·Р°РґР°С‡Сѓ РІ histo
+        //Добавить задачу в histo
         if (history.size() == 10) {
             history.remove(0);
         }
-        history.add(task);
+        //скопировать обьект task
+        Task taskCopy = new Task(task.getName(),task.getDescription(),task.getStatus());
+        taskCopy.setId(task.getId());
+        history.add(taskCopy);
+    }
+
+    @Override
+    public void clear(){
+        history.clear();
     }
 }

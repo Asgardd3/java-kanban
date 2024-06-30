@@ -1,3 +1,5 @@
+import java.sql.SQLOutput;
+
 public abstract class Managers {
     public static TaskManager getDefault() {
         TaskManager taskManager = new InMemoryTaskManager();
@@ -8,12 +10,14 @@ public abstract class Managers {
         HistoryManager historyManager = new InMemoryHistoryManager();
         return historyManager;
     }
-    private static void printAllTasks(TaskManager manager) {
-        System.out.println("Р—Р°РґР°С‡Рё:");
+    public static void printAllTasks(TaskManager manager) {
+        System.out.println("");
+        System.out.println("*************************");
+        System.out.println("Задачи:");
         for (Task task : manager.getAllTasks()) {
             System.out.println(task);
         }
-        System.out.println("Р­РїРёРєРё:");
+        System.out.println("Эпики:");
         for (Task epic : manager.getAllEpics()) {
             System.out.println(epic);
 
@@ -21,14 +25,16 @@ public abstract class Managers {
                 System.out.println("--> " + task);
             }
         }
-        System.out.println("РџРѕРґР·Р°РґР°С‡Рё:");
+        System.out.println("Подзадачи:");
         for (Task subtask : manager.getAllSubTasks()) {
             System.out.println(subtask);
         }
 
-        System.out.println("РСЃС‚РѕСЂРёСЏ:");
+        System.out.println("История:");
         for (Task task : manager.getHistory()) {
             System.out.println(task);
         }
+        System.out.println("*************************");
+        System.out.println("");
     }
 }
