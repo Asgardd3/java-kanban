@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class InMemoryTaskManager implements TaskManager {
 
@@ -10,13 +11,8 @@ public class InMemoryTaskManager implements TaskManager {
     private HistoryManager historyManager = Managers.getDefaultHistory();
 
     @Override
-    public ArrayList<Task> getHistory() {
+    public List<Task> getHistory() {
         return historyManager.getHistory();
-    }
-
-    @Override
-    public void clearHistory()  {
-        historyManager.clear();
     }
 
     private void addHistory(Task task)  {
@@ -53,7 +49,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public Task getTaskById(int id) {
         Task task  = tasks.get(id);
-        addHistory(tasks.get(id));
+        addHistory(task);
         return task;
     }
 

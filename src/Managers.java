@@ -2,13 +2,11 @@ import java.sql.SQLOutput;
 
 public abstract class Managers {
     public static TaskManager getDefault() {
-        TaskManager taskManager = new InMemoryTaskManager();
-        return taskManager;
+        return new InMemoryTaskManager();
     }
 
     public static HistoryManager getDefaultHistory() {
-        HistoryManager historyManager = new InMemoryHistoryManager();
-        return historyManager;
+        return new InMemoryHistoryManager();
     }
     public static void printAllTasks(TaskManager manager) {
         System.out.println("");

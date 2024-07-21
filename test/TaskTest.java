@@ -5,8 +5,8 @@ import org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class TaskTest {
-    TaskManager taskManager;
-    TaskManager taskManager2;
+    private TaskManager taskManager;
+    private TaskManager taskManager2;
 
     @BeforeEach
     void beforeEach(){

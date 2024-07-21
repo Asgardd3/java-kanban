@@ -1,10 +1,11 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public class InMemoryHistoryManager implements HistoryManager {
-    private ArrayList<Task> history  = new ArrayList<>();
+    private List<Task> history  = new ArrayList<>();
     @Override
-    public ArrayList<Task> getHistory() {
-        return history;
+    public List<Task> getHistory() {
+        return new ArrayList<>(history);
     }
     @Override
     public void add(Task task)  {
@@ -12,14 +13,10 @@ public class InMemoryHistoryManager implements HistoryManager {
         if (history.size() == 10) {
             history.remove(0);
         }
-        //скопировать обьект task
-        Task taskCopy = new Task(task.getName(),task.getDescription(),task.getStatus());
-        taskCopy.setId(task.getId());
-        history.add(taskCopy);
+
+        history.add(task);
+
+
     }
 
-    @Override
-    public void clear(){
-        history.clear();
-    }
 }

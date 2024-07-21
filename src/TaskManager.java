@@ -1,10 +1,10 @@
 import java.util.ArrayList;
+import java.util.List;
 
 public interface TaskManager {
 
-    public ArrayList<Task> getHistory();
+    public List<Task> getHistory();
 
-    public void clearHistory();
     //Задачи
 
     void addTask(Task task);
