@@ -4,98 +4,98 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("Поехали!");
+        System.out.println("РџРѕРµС…Р°Р»Рё!");
         TaskManager taskManager = Managers.getDefault();
 
-        // Старые прроверки
+        // РЎС‚Р°СЂС‹Рµ РїСЂСЂРѕРІРµСЂРєРё
         allTestData(taskManager);
         Managers.printAllTasks(taskManager);
 
-        //Пробуем просмотреть задачи, для проверки истории
-        System.out.println("Проверяем запись в историю");
+        //РџСЂРѕР±СѓРµРј РїСЂРѕСЃРјРѕС‚СЂРµС‚СЊ Р·Р°РґР°С‡Рё, РґР»СЏ РїСЂРѕРІРµСЂРєРё РёСЃС‚РѕСЂРёРё
+        System.out.println("РџСЂРѕРІРµСЂСЏРµРј Р·Р°РїРёСЃСЊ РІ РёСЃС‚РѕСЂРёСЋ");
         Task taskN = taskManager.getTaskById(3);
         SubTask subTaskN = taskManager.getSubTaskById(5);
         Epic epicN = taskManager.getEpicById(1);
         Managers.printAllTasks(taskManager);
 
-        System.out.println("Получаем задачу по идентификатору и печатаем ее");
+        System.out.println("РџРѕР»СѓС‡Р°РµРј Р·Р°РґР°С‡Сѓ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ Рё РїРµС‡Р°С‚Р°РµРј РµРµ");
         System.out.println(taskManager.getTaskById(3));
         System.out.println(taskManager.getSubTaskById(5));
         System.out.println(taskManager.getEpicById(1));
 
-        System.out.println("Обновляем задачу по идентификатору и печатаем ее");
+        System.out.println("РћР±РЅРѕРІР»СЏРµРј Р·Р°РґР°С‡Сѓ РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ Рё РїРµС‡Р°С‚Р°РµРј РµРµ");
         Task task1 = taskManager.getTaskById(3);
-        task1.setName("Задача 1_modify");
+        task1.setName("Р—Р°РґР°С‡Р° 1_modify");
         taskManager.updateTask(task1);
         System.out.println(taskManager.getTaskById(3));
 
         Epic epic1 = taskManager.getEpicById(1);
-        epic1.setName("Эпик 1_modify");
+        epic1.setName("Р­РїРёРє 1_modify");
         taskManager.updateEpic(epic1);
         System.out.println(taskManager.getEpicById(1));
 
         SubTask subTask1 = taskManager.getSubTaskById(5);
-        subTask1.setName("Подзадача 1_modify");
+        subTask1.setName("РџРѕРґР·Р°РґР°С‡Р° 1_modify");
         taskManager.updateSubTask(subTask1);
         System.out.println(taskManager.getSubTaskById(5));
 
-        //Удаление по индентификатору
-        System.out.println("Удаляем по идентификатору");
+        //РЈРґР°Р»РµРЅРёРµ РїРѕ РёРЅРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ
+        System.out.println("РЈРґР°Р»СЏРµРј РїРѕ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂСѓ");
         taskManager.deleteTaskById(3);
         taskManager.deleteSubTaskById(5);
         taskManager.deleteEpicById(1);
         Managers.printAllTasks(taskManager);
 
-        //Добавляем подзадачу 3  и Эпик 3
+        //Р”РѕР±Р°РІР»СЏРµРј РїРѕРґР·Р°РґР°С‡Сѓ 3  Рё Р­РїРёРє 3
 
-        //SubTask subtask3 = new SubTask("Подзадача 3","Описание 3",taskManager.getId());
-        //taskManager("Эпик 3","Описание 3",taskManager.getId());
+        //SubTask subtask3 = new SubTask("РџРѕРґР·Р°РґР°С‡Р° 3","РћРїРёСЃР°РЅРёРµ 3",taskManager.getId());
+        //taskManager("Р­РїРёРє 3","РћРїРёСЃР°РЅРёРµ 3",taskManager.getId());
         //taskManager.addSubTaskToEpic(epic3,subtask3);
 
 
-        //Всё удаляем и проверяем
-        System.out.println("Удаляем все и печатаем текущие");
+        //Р’СЃС‘ СѓРґР°Р»СЏРµРј Рё РїСЂРѕРІРµСЂСЏРµРј
+        System.out.println("РЈРґР°Р»СЏРµРј РІСЃРµ Рё РїРµС‡Р°С‚Р°РµРј С‚РµРєСѓС‰РёРµ");
         deleteAll(taskManager);
         Managers.printAllTasks(taskManager);
 
-        //Тест из задания
-        System.out.println("Теперь тестируем функционал по заданию");
-        System.out.println("Добавляем 2 подзадачи и 1 эпик");
+        //РўРµСЃС‚ РёР· Р·Р°РґР°РЅРёСЏ
+        System.out.println("РўРµРїРµСЂСЊ С‚РµСЃС‚РёСЂСѓРµРј С„СѓРЅРєС†РёРѕРЅР°Р» РїРѕ Р·Р°РґР°РЅРёСЋ");
+        System.out.println("Р”РѕР±Р°РІР»СЏРµРј 2 РїРѕРґР·Р°РґР°С‡Рё Рё 1 СЌРїРёРє");
 
-        taskManager.addEpic(new Epic("Эпик 4", "Описание 4"));
-        taskManager.addSubTask(new SubTask("Подзадача 4", "Описание 4", Status.NEW, 7));
-        taskManager.addSubTask(new SubTask("Подзадача 5", "Описание 5", Status.NEW, 7));
+        taskManager.addEpic(new Epic("Р­РїРёРє 4", "РћРїРёСЃР°РЅРёРµ 4"));
+        taskManager.addSubTask(new SubTask("РџРѕРґР·Р°РґР°С‡Р° 4", "РћРїРёСЃР°РЅРёРµ 4", Status.NEW, 7));
+        taskManager.addSubTask(new SubTask("РџРѕРґР·Р°РґР°С‡Р° 5", "РћРїРёСЃР°РЅРёРµ 5", Status.NEW, 7));
         Managers.printAllTasks(taskManager);
         //taskManager.addSubTaskToEpic(taskManager.getEpicById(9), taskManager.getSubTaskById(8));
         Managers.printAllTasks(taskManager);
 
-        System.out.println("Меняем у 4 подзадачи описание и статус");
+        System.out.println("РњРµРЅСЏРµРј Сѓ 4 РїРѕРґР·Р°РґР°С‡Рё РѕРїРёСЃР°РЅРёРµ Рё СЃС‚Р°С‚СѓСЃ");
         SubTask subTask2 = taskManager.getSubTaskById(8);
-        subTask2.setName("Подзадача 4 (update)");
-        subTask2.setDescription("Описание 4 (update)");
+        subTask2.setName("РџРѕРґР·Р°РґР°С‡Р° 4 (update)");
+        subTask2.setDescription("РћРїРёСЃР°РЅРёРµ 4 (update)");
         subTask2.setStatus(Status.DONE);
         taskManager.updateSubTask(subTask2);
         Managers.printAllTasks(taskManager);
 
-        System.out.println("Меняем у 5 подзадачи описание и статус");
+        System.out.println("РњРµРЅСЏРµРј Сѓ 5 РїРѕРґР·Р°РґР°С‡Рё РѕРїРёСЃР°РЅРёРµ Рё СЃС‚Р°С‚СѓСЃ");
         SubTask subTask3 = taskManager.getSubTaskById(9);
-        subTask3.setName("Подзадача 5 (update)");
-        subTask3.setDescription("Описание 5 (update)");
+        subTask3.setName("РџРѕРґР·Р°РґР°С‡Р° 5 (update)");
+        subTask3.setDescription("РћРїРёСЃР°РЅРёРµ 5 (update)");
         subTask3.setStatus(Status.DONE);
         taskManager.updateSubTask(subTask3);
         Managers.printAllTasks(taskManager);
 
         ArrayList<SubTask> subTasks = taskManager.getAllSubTasksByEpicId(7);
-        //Проверяем getAllSubTasksByEpicId
+        //РџСЂРѕРІРµСЂСЏРµРј getAllSubTasksByEpicId
 
-        //Удаляем задачу из эпика (DONE)
-        System.out.println("Удаляем одну из подзадач (подзадача 4)");
+        //РЈРґР°Р»СЏРµРј Р·Р°РґР°С‡Сѓ РёР· СЌРїРёРєР° (DONE)
+        System.out.println("РЈРґР°Р»СЏРµРј РѕРґРЅСѓ РёР· РїРѕРґР·Р°РґР°С‡ (РїРѕРґР·Р°РґР°С‡Р° 4)");
         taskManager.deleteSubTaskById(8);
         Managers.printAllTasks(taskManager);
-        System.out.println("Удаляем одну из подзадач (подзадача 5)");
+        System.out.println("РЈРґР°Р»СЏРµРј РѕРґРЅСѓ РёР· РїРѕРґР·Р°РґР°С‡ (РїРѕРґР·Р°РґР°С‡Р° 5)");
         taskManager.deleteSubTaskById(9);
         Managers.printAllTasks(taskManager);
-        System.out.println("Удаляем эпик 4");
+        System.out.println("РЈРґР°Р»СЏРµРј СЌРїРёРє 4");
         taskManager.deleteEpicById(7);
         Managers.printAllTasks(taskManager);
 
@@ -103,21 +103,21 @@ public class Main {
 
     public static void deleteAll(TaskManager taskManager) {
         taskManager.deleteAllTasks();
-        //Удаляем все эпики из списка
+        //РЈРґР°Р»СЏРµРј РІСЃРµ СЌРїРёРєРё РёР· СЃРїРёСЃРєР°
         taskManager.deleteAllEpics();
-        //Удаляем все подзадачи из списка
+        //РЈРґР°Р»СЏРµРј РІСЃРµ РїРѕРґР·Р°РґР°С‡Рё РёР· СЃРїРёСЃРєР°
         taskManager.deleteAllSubTasks();
     }
 
     public static void allTestData(TaskManager taskManager) {
-        //Создаем эпики
-        taskManager.addEpic(new Epic("Эпик 1", "Описание 1"));
-        taskManager.addEpic(new Epic("Эпик 1", "Описание 1"));
-        //Создаем задачи
-        taskManager.addTask(new Task("Задача 1", "Описание 1", Status.NEW));
-        taskManager.addTask(new Task("Задача 2", "Описание 2", Status.NEW));
-        //Создаем подзадачи
-        taskManager.addSubTask(new SubTask("Подзадача 1", "Описание 1",  Status.NEW, 2));
-        taskManager.addSubTask(new SubTask("Подзадача 2", "Описание 2",  Status.NEW, 2));
+        //РЎРѕР·РґР°РµРј СЌРїРёРєРё
+        taskManager.addEpic(new Epic("Р­РїРёРє 1", "РћРїРёСЃР°РЅРёРµ 1"));
+        taskManager.addEpic(new Epic("Р­РїРёРє 1", "РћРїРёСЃР°РЅРёРµ 1"));
+        //РЎРѕР·РґР°РµРј Р·Р°РґР°С‡Рё
+        taskManager.addTask(new Task("Р—Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1", Status.NEW));
+        taskManager.addTask(new Task("Р—Р°РґР°С‡Р° 2", "РћРїРёСЃР°РЅРёРµ 2", Status.NEW));
+        //РЎРѕР·РґР°РµРј РїРѕРґР·Р°РґР°С‡Рё
+        taskManager.addSubTask(new SubTask("РџРѕРґР·Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1",  Status.NEW, 2));
+        taskManager.addSubTask(new SubTask("РџРѕРґР·Р°РґР°С‡Р° 2", "РћРїРёСЃР°РЅРёРµ 2",  Status.NEW, 2));
     }
 }
