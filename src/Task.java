@@ -55,15 +55,15 @@ public class Task {
         this.name = name;
     }
 
-    public String getDescription() {
+    protected String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    protected void setDescription(String description) {
         this.description = description;
     }
 
-    public void setId(int id) {
+    protected void setId(int id) {
         this.id = id;
     }
 

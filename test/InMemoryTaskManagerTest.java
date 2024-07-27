@@ -151,10 +151,17 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldTasksFieldsNotChanged() {
+    void shouldTasksChanged() {
         Task task1 = new Task("Задача 1", "Описание 1", Status.NEW);
         taskManager.addTask(task1);
-        task1.setName("xxxxxxxxxxxx");
+        task1.setId(10);
+        assertEquals(task1.getId(),10);
+        task1.setName("Новое имя");
+        assertEquals(task1.getName(),"Новое имя");
+        task1.setDescription("Новое описание");
+        assertEquals(task1.getDescription(),"Новое описание");
+        task1.setStatus(Status.DONE);
+        assertEquals(task1.getStatus(),Status.DONE);
     }
 
     //Внутри эпиков не должно оставаться неактуальных id подзадач.
