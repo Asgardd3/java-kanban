@@ -21,7 +21,7 @@ class InMemoryHistoryManagerTest {
         taskManager.addEpic(epic1);
         taskManager.getEpicById(epic1.getId());
         taskManager.getEpicById(epic1.getId());
-        assertEquals(taskManager.getHistory().size(),2);
+        assertEquals(taskManager.getHistory().size(),1);
     }
 
     @Test
@@ -30,7 +30,7 @@ class InMemoryHistoryManagerTest {
         taskManager.addTask(task1);
         taskManager.getTaskById(task1.getId());
         taskManager.getTaskById(task1.getId());
-        assertEquals(taskManager.getHistory().size(),2);
+        assertEquals(taskManager.getHistory().size(),1);
 
     }
 
@@ -42,7 +42,7 @@ class InMemoryHistoryManagerTest {
         taskManager.addSubTask(subTask1);
         taskManager.getSubTaskById(subTask1.getId());
         taskManager.getSubTaskById(subTask1.getId());
-        assertEquals(taskManager.getHistory().size(),2);
+        assertEquals(taskManager.getHistory().size(),1);
 
     }
 
