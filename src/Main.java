@@ -13,7 +13,7 @@ public class Main {
 
         //Пробуем просмотреть задачи, для проверки истории
         System.out.println("Проверяем запись в историю");
-        Task taskN= taskManager.getTaskById(3);
+        Task taskN = taskManager.getTaskById(3);
         SubTask subTaskN = taskManager.getSubTaskById(5);
         Epic epicN = taskManager.getEpicById(1);
         Managers.printAllTasks(taskManager);
@@ -120,7 +120,4 @@ public class Main {
         taskManager.addSubTask(new SubTask("Подзадача 1", "Описание 1",  Status.NEW, 2));
         taskManager.addSubTask(new SubTask("Подзадача 2", "Описание 2",  Status.NEW, 2));
     }
-    
-
-
 }
