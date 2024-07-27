@@ -1,5 +1,3 @@
-import java.sql.SQLOutput;
-
 public abstract class Managers {
     public static TaskManager getDefault() {
         return new InMemoryTaskManager();
@@ -8,6 +6,7 @@ public abstract class Managers {
     public static HistoryManager getDefaultHistory() {
         return new InMemoryHistoryManager();
     }
+
     public static void printAllTasks(TaskManager manager) {
         System.out.println("");
         System.out.println("*************************");
