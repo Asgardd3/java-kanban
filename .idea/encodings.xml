@@ -5,8 +5,8 @@
     <file url="file://$PROJECT_DIR$/src/InMemoryTaskManager.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Main.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Managers.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/test/EpicTest.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/test/InMemoryHistoryManagerTest.java" charset="windows-1251" />
-    <file url="file://$PROJECT_DIR$/test/InMemoryTaskManagerTest.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/test/EpicTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/test/InMemoryHistoryManagerTest.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/test/InMemoryTaskManagerTest.java" charset="UTF-8" />
   </component>
 </project>
