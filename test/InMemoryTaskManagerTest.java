@@ -128,4 +128,36 @@ class InMemoryTaskManagerTest {
         assertTrue(subTask1.getName().equals("Подзадача 1") & subTask1.getDescription().equals("Описание 1"));
 
     }
+
+    //Удаляемые подзадачи не должны хранить внутри себя старые id.
+    @Test
+    void shouldSubtasksNotHaveOldId () {
+        Epic epic1 = new Epic("Эпик 1", "Описание 1");
+        taskManager.addEpic(epic1);
+        SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1",  Status.NEW, epic1.getId());
+        taskManager.addSubTask(subTask1);
+        taskManager.deleteEpicById(epic1.getId());
+        assertEquals(taskManager.getAllSubTasks().size(),0);
+
+    }
+    @Test
+    void shouldEpicsNotHaveUnusableId () {
+        Epic epic1 = new Epic("Эпик 1", "Описание 1");
+        taskManager.addEpic(epic1);
+        SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1",  Status.NEW, epic1.getId());
+        taskManager.addSubTask(subTask1);
+        taskManager.deleteSubTaskById(subTask1.getId());
+        assertEquals(taskManager.getEpicById(epic1.getId()).getSubTasksIds().size(),0);
+    }
+
+    @Test
+    void shouldTasksFieldsNotChanged() {
+        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW);
+        taskManager.addTask(task1);
+        task1.setName("xxxxxxxxxxxx");
+    }
+
+    //Внутри эпиков не должно оставаться неактуальных id подзадач.
+
+    //С помощью сеттеров экземпляры задач позволяют изменить любое своё поле, но это может повлиять на данные внутри менеджера. Протестируйте эти кейсы и подумайте над возможными вариантами решения проблемы.
 }
