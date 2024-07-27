@@ -10,11 +10,11 @@ public abstract class Managers {
     public static void printAllTasks(TaskManager manager) {
         System.out.println("");
         System.out.println("*************************");
-        System.out.println("Задачи:");
+        System.out.println("Р—Р°РґР°С‡Рё:");
         for (Task task : manager.getAllTasks()) {
             System.out.println(task);
         }
-        System.out.println("Эпики:");
+        System.out.println("Р­РїРёРєРё:");
         for (Task epic : manager.getAllEpics()) {
             System.out.println(epic);
 
@@ -22,12 +22,12 @@ public abstract class Managers {
                 System.out.println("--> " + task);
             }
         }
-        System.out.println("Подзадачи:");
+        System.out.println("РџРѕРґР·Р°РґР°С‡Рё:");
         for (Task subtask : manager.getAllSubTasks()) {
             System.out.println(subtask);
         }
 
-        System.out.println("История:");
+        System.out.println("РСЃС‚РѕСЂРёСЏ:");
         for (Task task : manager.getHistory()) {
             System.out.println(task);
         }

@@ -3,7 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/src/InMemoryHistoryManager.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/src/InMemoryTaskManager.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/Main.java" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/src/Main.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Managers.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/test/EpicTest.java" charset="windows-1251" />
     <file url="file://$PROJECT_DIR$/test/InMemoryHistoryManagerTest.java" charset="windows-1251" />
