@@ -1,4 +1,3 @@
-import java.util.LinkedList;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -12,7 +11,6 @@ public class InMemoryHistoryManager implements HistoryManager {
     public List<Task> getHistory() {
         return getTasks();
     }
-
     @Override
     public void remove(int id) {
         removeNode(tasks.get(id));
@@ -25,7 +23,6 @@ public class InMemoryHistoryManager implements HistoryManager {
             tasks.remove(task.getId());
         }
         linkLast(task);
-
     }
     public void linkLast(Task task) {
         Node tailOld = tail;
@@ -48,9 +45,7 @@ public class InMemoryHistoryManager implements HistoryManager {
             element = element.next;
         }
         return tasks;
-
     }
-
     public void removeNode(Node node) {
         if (node.next!=null) {
             node.next.prev = node.prev;
@@ -62,11 +57,9 @@ public class InMemoryHistoryManager implements HistoryManager {
 
 }
 class Node {
-
     public Task data;
     public Node next;
     public Node prev;
-
     public Node(Task data) {
         this.data = data;
         this.next = null;
