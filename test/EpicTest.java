@@ -16,8 +16,8 @@ class EpicTest {
 
     @Test
     void shouldBeEqualsEpicsWithSameId() {
-        Epic epic1 = new Epic("Эпик 1", "Описание 1"); //taskManager.addEpic();
-        Epic epic2 = new Epic("Эпик 2", "Описание 1");
+        Epic epic1 = new Epic("Р­РїРёРє 1", "РћРїРёСЃР°РЅРёРµ 1"); //taskManager.addEpic();
+        Epic epic2 = new Epic("Р­РїРёРє 2", "РћРїРёСЃР°РЅРёРµ 1");
         this.taskManager.addEpic(epic1);
         epic2.setId(epic1.getId());
         assertEquals(epic1, epic2);
@@ -25,7 +25,7 @@ class EpicTest {
 
     @Test
     void shouldBeNegativeAddEpicInHisSubtasks () {
-        Epic epic1 = new Epic("Эпик 1", "Описание 1");
+        Epic epic1 = new Epic("Р­РїРёРє 1", "РћРїРёСЃР°РЅРёРµ 1");
         //TaskManager taskManager = new InMemoryTaskManager();
         this.taskManager.addEpic(epic1);
         epic1.addSubTasksId(epic1.getId());
