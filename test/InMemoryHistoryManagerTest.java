@@ -17,43 +17,54 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void shouldSaveHistoryPrevEpicsGet () {
-        Epic epic1 = new Epic("Эпик 1", "Описание 1");
+        Epic epic1 = new Epic("Р­РїРёРє 1", "РћРїРёСЃР°РЅРёРµ 1");
         taskManager.addEpic(epic1);
         taskManager.getEpicById(epic1.getId());
         taskManager.getEpicById(epic1.getId());
-        assertEquals(taskManager.getHistory().size(),2);
+        assertEquals(taskManager.getHistory().size(),1);
     }
 
     @Test
     void shouldSaveHistoryPrevTasksGet() {
-        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW);
+        Task task1 = new Task("Р—Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1", Status.NEW);
         taskManager.addTask(task1);
         taskManager.getTaskById(task1.getId());
         taskManager.getTaskById(task1.getId());
-        assertEquals(taskManager.getHistory().size(),2);
+        assertEquals(taskManager.getHistory().size(),1);
 
     }
 
     @Test
     void shouldSaveHistoryPrevSubTasksGet() {
-        Epic epic2 = new Epic("Эпик 1", "Описание 1");
+        Epic epic2 = new Epic("Р­РїРёРє 1", "РћРїРёСЃР°РЅРёРµ 1");
         taskManager.addEpic(epic2);
-        SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1",  Status.NEW, epic2.getId());
+        SubTask subTask1 = new SubTask("РџРѕРґР·Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1",  Status.NEW, epic2.getId());
         taskManager.addSubTask(subTask1);
         taskManager.getSubTaskById(subTask1.getId());
         taskManager.getSubTaskById(subTask1.getId());
-        assertEquals(taskManager.getHistory().size(),2);
+        assertEquals(taskManager.getHistory().size(),1);
 
     }
 
     @Test
     void add() {
 
-        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW);
+        Task task1 = new Task("Р—Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1", Status.NEW);
         historyManager.add(task1);
         final List<Task> history = historyManager.getHistory();
-        assertNotNull(history, "История не пустая.");
-        assertEquals(1, history.size(), "История не пустая.");
+        assertNotNull(history, "РСЃС‚РѕСЂРёСЏ РЅРµ РїСѓСЃС‚Р°СЏ.");
+        assertEquals(1, history.size(), "РСЃС‚РѕСЂРёСЏ РЅРµ РїСѓСЃС‚Р°СЏ.");
+    }
+    @Test
+    void remove() {
+
+        Task task1 = new Task("Р—Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1", Status.NEW);
+        historyManager.add(task1);
+        historyManager.remove(task1.getId());
+        final List<Task> history = historyManager.getHistory();
+        assertEquals(0, history.size(), "РСЃС‚РѕСЂРёСЏ РїСѓСЃС‚Р°СЏ.");
     }
 
+
 }
+//

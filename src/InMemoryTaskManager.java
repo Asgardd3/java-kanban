@@ -23,7 +23,7 @@ public class InMemoryTaskManager implements TaskManager {
         return this.id++;
     }
 
-    //Задачи
+    //Р—Р°РґР°С‡Рё
     @Override
     public void addTask(Task task) {
         task.setId(getId());
@@ -43,6 +43,9 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllTasks() {
+        for (Task task : tasks.values()) {
+            historyManager.remove(task.getId());
+        }
         tasks.clear();
     }
 
@@ -58,7 +61,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (tasks.containsKey(task.getId())) {
             tasks.put(task.getId(), task);
         } else {
-            System.out.println("Задачи с такой ID(" + task.getId() + ") не существует");
+            System.out.println("Р—Р°РґР°С‡Рё СЃ С‚Р°РєРѕР№ ID(" + task.getId() + ") РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
 
         }
     }
@@ -66,9 +69,10 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void deleteTaskById(int id) {
         tasks.remove(id);
+        historyManager.remove(id);
     }
 
-    //Подзадачи
+    //РџРѕРґР·Р°РґР°С‡Рё
     public void printAllSubTasks() {
         for (SubTask subTask : subTasks.values()) {
             System.out.println(subTask.toString());
@@ -93,11 +97,15 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllSubTasks() {
+        for (SubTask subTask : subTasks.values()) {
+            historyManager.remove(subTask.getId());
+        }
         subTasks.clear();
         for (Epic epicLoop : epics.values()) {
             epicLoop.removeAll();
             evaluateEpicStatus(epicLoop);
         }
+
 
     }
 
@@ -116,15 +124,15 @@ public class InMemoryTaskManager implements TaskManager {
                 evaluateEpicStatus(epics.get(subTask.getEpicId()));
             }
         } else {
-            System.out.println("Подзадачи с такой ID(" + subTask.getId() + ") не существует");
+            System.out.println("РџРѕРґР·Р°РґР°С‡Рё СЃ С‚Р°РєРѕР№ ID(" + subTask.getId() + ") РЅРµ СЃСѓС‰РµСЃС‚РІСѓРµС‚");
 
         }
 
 
 
     }
-    //Ищем, в каком эпике есть данная подзадача и
-    // обновляем его статус
+    //РС‰РµРј, РІ РєР°РєРѕРј СЌРїРёРєРµ РµСЃС‚СЊ РґР°РЅРЅР°СЏ РїРѕРґР·Р°РґР°С‡Р° Рё
+    // РѕР±РЅРѕРІР»СЏРµРј РµРіРѕ СЃС‚Р°С‚СѓСЃ
 
     @Override
     public void deleteSubTaskById(int id) {
@@ -132,10 +140,11 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.get(subTask.getEpicId());
         epic.removeSubTasksId(subTask.getId());
         evaluateEpicStatus(epic);
+        historyManager.remove(id);
     }
 
 
-    //Эпики
+    //Р­РїРёРєРё
     public void printAllEpics() {
         for (Epic epic : epics.values()) {
             System.out.println(epic.toString());
@@ -155,6 +164,12 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteAllEpics() {
+        for (Epic epic : epics.values()) {
+            historyManager.remove(epic.getId());
+        }
+        for (SubTask subTask : subTasks.values()) {
+            historyManager.remove(subTask.getId());
+        }
         epics.clear();
         subTasks.clear();
     }
@@ -167,7 +182,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void updateEpic(Epic epic) {
-        //Пооользователь не может переопределить статус эпика
+        //РџРѕРѕРѕР»СЊР·РѕРІР°С‚РµР»СЊ РЅРµ РјРѕР¶РµС‚ РїРµСЂРµРѕРїСЂРµРґРµР»РёС‚СЊ СЃС‚Р°С‚СѓСЃ СЌРїРёРєР°
         Epic epicUpd  = epics.get(epic.getId());
         epicUpd.setName(epic.getName());
         epicUpd.setDescription(epic.getDescription());
@@ -178,7 +193,9 @@ public class InMemoryTaskManager implements TaskManager {
         Epic epic = epics.remove(id);
         for (int subtaskToRemove : epic.getSubTasksIds()) {
             subTasks.remove(subtaskToRemove);
+            historyManager.remove(subtaskToRemove);
         }
+        historyManager.remove(id);
     }
 
     @Override
@@ -195,8 +212,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private void evaluateEpicStatus(Epic epic) {
-        //Ели у эпика нет подзадач или они все NEW, то статус должен быть NEW
-        //Проверить, есть ли задачи в статусе NEW, если нет, то статус должен стать NEW
+        //Р•Р»Рё Сѓ СЌРїРёРєР° РЅРµС‚ РїРѕРґР·Р°РґР°С‡ РёР»Рё РѕРЅРё РІСЃРµ NEW, С‚Рѕ СЃС‚Р°С‚СѓСЃ РґРѕР»Р¶РµРЅ Р±С‹С‚СЊ NEW
+        //РџСЂРѕРІРµСЂРёС‚СЊ, РµСЃС‚СЊ Р»Рё Р·Р°РґР°С‡Рё РІ СЃС‚Р°С‚СѓСЃРµ NEW, РµСЃР»Рё РЅРµС‚, С‚Рѕ СЃС‚Р°С‚СѓСЃ РґРѕР»Р¶РµРЅ СЃС‚Р°С‚СЊ NEW
         boolean isActualHaveTasksNew = false;
         boolean isActualHaveTasksDone = false;
         boolean isActualHaveTasksInProgress = false;
@@ -225,7 +242,7 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
 
-        //Если все подзадачи DONE, то эпик считается завершённым
+        //Р•СЃР»Рё РІСЃРµ РїРѕРґР·Р°РґР°С‡Рё DONE, С‚Рѕ СЌРїРёРє СЃС‡РёС‚Р°РµС‚СЃСЏ Р·Р°РІРµСЂС€С‘РЅРЅС‹Рј
         if (!isActualHaveTasksNew && isActualHaveTasksDone && !isActualHaveTasksInProgress) {
             epic.setStatus(Status.DONE);
             return;

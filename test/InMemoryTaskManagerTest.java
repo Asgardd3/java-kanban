@@ -19,14 +19,14 @@ class InMemoryTaskManagerTest {
         int taskId = task.getId();
         Task savedTask = taskManager.getTaskById(taskId);
 
-        assertNotNull(savedTask, "Задача не найдена.");
-        assertEquals(task, savedTask, "Задачи не совпадают.");
+        assertNotNull(savedTask, "Р—Р°РґР°С‡Р° РЅРµ РЅР°Р№РґРµРЅР°.");
+        assertEquals(task, savedTask, "Р—Р°РґР°С‡Рё РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
 
         List<Task> tasks = taskManager.getAllTasks();
 
-        assertNotNull(tasks, "Задачи не возвращаются.");
-        assertEquals(1, tasks.size(), "Неверное количество задач.");
-        assertEquals(task, tasks.get(0), "Задачи не совпадают.");
+        assertNotNull(tasks, "Р—Р°РґР°С‡Рё РЅРµ РІРѕР·РІСЂР°С‰Р°СЋС‚СЃСЏ.");
+        assertEquals(1, tasks.size(), "РќРµРІРµСЂРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ Р·Р°РґР°С‡.");
+        assertEquals(task, tasks.get(0), "Р—Р°РґР°С‡Рё РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
     }
 
     @Test
@@ -38,76 +38,76 @@ class InMemoryTaskManagerTest {
 
     @Test
     void addSubTask() {
-        Epic epic1 = new Epic("Эпик 1", "Описание 1");
+        Epic epic1 = new Epic("Р­РїРёРє 1", "РћРїРёСЃР°РЅРёРµ 1");
         taskManager.addEpic(epic1);
-        SubTask subTask = new SubTask("Подзадача 1", "Описание 1",  Status.NEW,epic1.getId());
+        SubTask subTask = new SubTask("РџРѕРґР·Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1",  Status.NEW,epic1.getId());
         taskManager.addSubTask(subTask);
         int SubTaskId = subTask.getId();
         Task savedSubTask = taskManager.getSubTaskById(SubTaskId);
 
-        assertNotNull(savedSubTask, "Подзадача не найдена.");
-        assertEquals(subTask, savedSubTask, "Подзадачи не совпадают.");
+        assertNotNull(savedSubTask, "РџРѕРґР·Р°РґР°С‡Р° РЅРµ РЅР°Р№РґРµРЅР°.");
+        assertEquals(subTask, savedSubTask, "РџРѕРґР·Р°РґР°С‡Рё РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
 
         List<SubTask> subTasks = taskManager.getAllSubTasks();
 
-        assertNotNull(subTasks, "Подзадачи не возвращаются.");
-        assertEquals(1, subTasks.size(), "Неверное количество подзадач.");
-        assertEquals(subTask, subTasks.get(0), "Подзадачи не совпадают.");
+        assertNotNull(subTasks, "РџРѕРґР·Р°РґР°С‡Рё РЅРµ РІРѕР·РІСЂР°С‰Р°СЋС‚СЃСЏ.");
+        assertEquals(1, subTasks.size(), "РќРµРІРµСЂРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРґР·Р°РґР°С‡.");
+        assertEquals(subTask, subTasks.get(0), "РџРѕРґР·Р°РґР°С‡Рё РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
     }
 
     @Test
     void getSubTaskById() {
-        Epic epic1 = new Epic("Эпик 1", "Описание 1");
+        Epic epic1 = new Epic("Р­РїРёРє 1", "РћРїРёСЃР°РЅРёРµ 1");
         taskManager.addEpic(epic1);
-        SubTask subTask = new SubTask("Подзадача 1", "Описание 1",  Status.NEW,epic1.getId());
+        SubTask subTask = new SubTask("РџРѕРґР·Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1",  Status.NEW,epic1.getId());
         taskManager.addSubTask(subTask);
         assertNotNull(taskManager.getSubTaskById(subTask.getId()));
     }
 
     @Test
     void addEpic() {
-        Epic epic1 = new Epic("Эпик 1", "Описание 1");
+        Epic epic1 = new Epic("Р­РїРёРє 1", "РћРїРёСЃР°РЅРёРµ 1");
         taskManager.addEpic(epic1);
         int epicId = epic1.getId();
         Epic savedEpic = taskManager.getEpicById(epicId);
 
-        assertNotNull(savedEpic, "Эпик не найден.");
-        assertEquals(epic1, savedEpic, "Эпики не совпадают.");
+        assertNotNull(savedEpic, "Р­РїРёРє РЅРµ РЅР°Р№РґРµРЅ.");
+        assertEquals(epic1, savedEpic, "Р­РїРёРєРё РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
 
         List<Epic> epics = taskManager.getAllEpics();
-        assertNotNull(epics, "Подзадачи не возвращаются.");
-        assertEquals(1, epics.size(), "Неверное количество подзадач.");
-        assertEquals(epic1, epics.get(0), "Подзадачи не совпадают.");
+        assertNotNull(epics, "РџРѕРґР·Р°РґР°С‡Рё РЅРµ РІРѕР·РІСЂР°С‰Р°СЋС‚СЃСЏ.");
+        assertEquals(1, epics.size(), "РќРµРІРµСЂРЅРѕРµ РєРѕР»РёС‡РµСЃС‚РІРѕ РїРѕРґР·Р°РґР°С‡.");
+        assertEquals(epic1, epics.get(0), "РџРѕРґР·Р°РґР°С‡Рё РЅРµ СЃРѕРІРїР°РґР°СЋС‚.");
 
     }
 
     @Test
     void getEpicById() {
-        Epic epic = new Epic("Эпик 1", "Описание 1");
+        Epic epic = new Epic("Р­РїРёРє 1", "РћРїРёСЃР°РЅРёРµ 1");
         taskManager.addEpic(epic);
         assertNotNull(taskManager.getEpicById(epic.getId()));
     }
 
     @Test
     void shouldBeIncrIdNumber()  {
-        Epic epic1 = new Epic("Эпик 1", "Описание 1");
+        Epic epic1 = new Epic("Р­РїРёРє 1", "РћРїРёСЃР°РЅРёРµ 1");
         taskManager.addEpic(epic1);
         assertEquals(epic1.getId(),1);
-        Epic epic2 = new Epic("Эпик 2", "Описание 2");
+        Epic epic2 = new Epic("Р­РїРёРє 2", "РћРїРёСЃР°РЅРёРµ 2");
         taskManager.addEpic(epic2);
         assertEquals(epic2.getId()-epic1.getId(),1);
-        //Создаем задачи
-        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW);
+        //РЎРѕР·РґР°РµРј Р·Р°РґР°С‡Рё
+        Task task1 = new Task("Р—Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1", Status.NEW);
         taskManager.addTask(task1);
         assertEquals(task1.getId()-epic2.getId(),1);
-        Task task2 = new Task("Задача 2", "Описание 2", Status.NEW);
+        Task task2 = new Task("Р—Р°РґР°С‡Р° 2", "РћРїРёСЃР°РЅРёРµ 2", Status.NEW);
         taskManager.addTask(task2);
         assertEquals(task2.getId()-task1.getId(),1);
-        //Создаем подзадачи
-        SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1",  Status.NEW, 2);
+        //РЎРѕР·РґР°РµРј РїРѕРґР·Р°РґР°С‡Рё
+        SubTask subTask1 = new SubTask("РџРѕРґР·Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1",  Status.NEW, 2);
         taskManager.addSubTask(subTask1);
         assertEquals(subTask1.getId()-task2.getId(),1);
-        SubTask subTask2 = new SubTask("Подзадача 2", "Описание 2",  Status.NEW, 2);
+        SubTask subTask2 = new SubTask("РџРѕРґР·Р°РґР°С‡Р° 2", "РћРїРёСЃР°РЅРёРµ 2",  Status.NEW, 2);
         taskManager.addSubTask(subTask2);
         assertEquals(subTask2.getId()-subTask1.getId(),1);
     }
@@ -115,17 +115,56 @@ class InMemoryTaskManagerTest {
     @Test
     void shouldBeFieldsTasksNotChangedWhenCreate() {
 
-        Epic epic1 = new Epic("Эпик 1", "Описание 1");
+        Epic epic1 = new Epic("Р­РїРёРє 1", "РћРїРёСЃР°РЅРёРµ 1");
         taskManager.addEpic(epic1);
-        assertTrue(epic1.getName().equals("Эпик 1") & epic1.getDescription().equals("Описание 1"));
+        assertTrue(epic1.getName().equals("Р­РїРёРє 1") & epic1.getDescription().equals("РћРїРёСЃР°РЅРёРµ 1"));
 
-        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW);
+        Task task1 = new Task("Р—Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1", Status.NEW);
         taskManager.addTask(task1);
-        assertTrue(task1.getName().equals("Задача 1") & task1.getDescription().equals("Описание 1"));
+        assertTrue(task1.getName().equals("Р—Р°РґР°С‡Р° 1") & task1.getDescription().equals("РћРїРёСЃР°РЅРёРµ 1"));
 
-        SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1",  Status.NEW, 2);
+        SubTask subTask1 = new SubTask("РџРѕРґР·Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1",  Status.NEW, 2);
         taskManager.addSubTask(subTask1);
-        assertTrue(subTask1.getName().equals("Подзадача 1") & subTask1.getDescription().equals("Описание 1"));
+        assertTrue(subTask1.getName().equals("РџРѕРґР·Р°РґР°С‡Р° 1") & subTask1.getDescription().equals("РћРїРёСЃР°РЅРёРµ 1"));
 
     }
+
+    //РЈРґР°Р»СЏРµРјС‹Рµ РїРѕРґР·Р°РґР°С‡Рё РЅРµ РґРѕР»Р¶РЅС‹ С…СЂР°РЅРёС‚СЊ РІРЅСѓС‚СЂРё СЃРµР±СЏ СЃС‚Р°СЂС‹Рµ id.
+    @Test
+    void shouldSubtasksNotHaveOldId () {
+        Epic epic1 = new Epic("Р­РїРёРє 1", "РћРїРёСЃР°РЅРёРµ 1");
+        taskManager.addEpic(epic1);
+        SubTask subTask1 = new SubTask("РџРѕРґР·Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1",  Status.NEW, epic1.getId());
+        taskManager.addSubTask(subTask1);
+        taskManager.deleteEpicById(epic1.getId());
+        assertEquals(taskManager.getAllSubTasks().size(),0);
+
+    }
+    @Test
+    void shouldEpicsNotHaveUnusableId () {
+        Epic epic1 = new Epic("Р­РїРёРє 1", "РћРїРёСЃР°РЅРёРµ 1");
+        taskManager.addEpic(epic1);
+        SubTask subTask1 = new SubTask("РџРѕРґР·Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1",  Status.NEW, epic1.getId());
+        taskManager.addSubTask(subTask1);
+        taskManager.deleteSubTaskById(subTask1.getId());
+        assertEquals(taskManager.getEpicById(epic1.getId()).getSubTasksIds().size(),0);
+    }
+
+    @Test
+    void shouldTasksChanged() {
+        Task task1 = new Task("Р—Р°РґР°С‡Р° 1", "РћРїРёСЃР°РЅРёРµ 1", Status.NEW);
+        taskManager.addTask(task1);
+        task1.setId(10);
+        assertEquals(task1.getId(),10);
+        task1.setName("РќРѕРІРѕРµ РёРјСЏ");
+        assertEquals(task1.getName(),"РќРѕРІРѕРµ РёРјСЏ");
+        task1.setDescription("РќРѕРІРѕРµ РѕРїРёСЃР°РЅРёРµ");
+        assertEquals(task1.getDescription(),"РќРѕРІРѕРµ РѕРїРёСЃР°РЅРёРµ");
+        task1.setStatus(Status.DONE);
+        assertEquals(task1.getStatus(),Status.DONE);
+    }
+
+    //Р’РЅСѓС‚СЂРё СЌРїРёРєРѕРІ РЅРµ РґРѕР»Р¶РЅРѕ РѕСЃС‚Р°РІР°С‚СЊСЃСЏ РЅРµР°РєС‚СѓР°Р»СЊРЅС‹С… id РїРѕРґР·Р°РґР°С‡.
+
+    //РЎ РїРѕРјРѕС‰СЊСЋ СЃРµС‚С‚РµСЂРѕРІ СЌРєР·РµРјРїР»СЏСЂС‹ Р·Р°РґР°С‡ РїРѕР·РІРѕР»СЏСЋС‚ РёР·РјРµРЅРёС‚СЊ Р»СЋР±РѕРµ СЃРІРѕС‘ РїРѕР»Рµ, РЅРѕ СЌС‚Рѕ РјРѕР¶РµС‚ РїРѕРІР»РёСЏС‚СЊ РЅР° РґР°РЅРЅС‹Рµ РІРЅСѓС‚СЂРё РјРµРЅРµРґР¶РµСЂР°. РџСЂРѕС‚РµСЃС‚РёСЂСѓР№С‚Рµ СЌС‚Рё РєРµР№СЃС‹ Рё РїРѕРґСѓРјР°Р№С‚Рµ РЅР°Рґ РІРѕР·РјРѕР¶РЅС‹РјРё РІР°СЂРёР°РЅС‚Р°РјРё СЂРµС€РµРЅРёСЏ РїСЂРѕР±Р»РµРјС‹.
 }
