@@ -39,12 +39,14 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Info{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", status=" + status +
-                '}';
+        return name + "," + description + "," + id + "," + status;
+    }
+
+    public Task fromString(String s) {
+        String[] parts = s.split(",");
+        Task task = new Task(parts[0], parts[1], Status.valueOf(parts[2]));
+        task.setId(Integer.parseInt(parts[3]));
+        return task;
     }
 
     public String getName() {

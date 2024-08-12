@@ -23,6 +23,16 @@ public class Epic extends Task {
         }
     }
 
+    public Epic fromString(String string) {
+        String[] data = string.split(";");
+        String name = data[0];
+        String description = data[1];
+        Status status = Status.valueOf(data[2]);
+        Epic epic = new Epic(name, description);
+        epic.setStatus(status);
+        return epic;
+    }
+
     public void removeAll() {
         this.subTasksIds.clear();
     }
