@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
 
@@ -92,7 +91,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     @Override
     public void updateTask(Task task) {
         super.updateTask(task);
-                try {
+        try {
             save();
         }
         catch (ManagerSaveException e) {
@@ -103,7 +102,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     @Override
     public void deleteTaskById(int id) {
         super.deleteTaskById(id);
-                try {
+        try {
             save();
         }
         catch (ManagerSaveException e) {
@@ -114,7 +113,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     @Override
     public void addSubTask(SubTask subTask) {
         super.addSubTask(subTask);
-                try {
+        try {
             save();
         }
         catch (ManagerSaveException e) {
@@ -125,7 +124,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     @Override
     public void deleteAllTasks() {
         super.deleteAllTasks();
-                try {
+        try {
             save();
         }
         catch (ManagerSaveException e) {
@@ -136,7 +135,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     @Override
     public void deleteAllSubTasks() {
         super.deleteAllSubTasks();
-                try {
+        try {
             save();
         }
         catch (ManagerSaveException e) {
@@ -147,7 +146,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     @Override
     public void updateSubTask(SubTask subTask) {
         super.updateSubTask(subTask);
-                try {
+        try {
             save();
         }
         catch (ManagerSaveException e) {
@@ -158,7 +157,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     @Override
     public void deleteSubTaskById(int id) {
         super.deleteSubTaskById(id);
-                try {
+        try {
             save();
         }
         catch (ManagerSaveException e) {
@@ -169,7 +168,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     @Override
     public void addEpic(Epic epic) {
         super.addEpic(epic);
-                try {
+        try {
             save();
         }
         catch (ManagerSaveException e) {
@@ -180,7 +179,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     @Override
     public void deleteAllEpics() {
         super.deleteAllEpics();
-                try {
+        try {
             save();
         }
         catch (ManagerSaveException e) {
@@ -191,7 +190,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     @Override
     public void updateEpic(Epic epic) {
         super.updateEpic(epic);
-                try {
+        try {
             save();
         }
         catch (ManagerSaveException e) {
@@ -202,7 +201,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     @Override
     public void deleteEpicById(int id) {
         super.deleteEpicById(id);
-                try {
+        try {
             save();
         }
         catch (ManagerSaveException e) {
