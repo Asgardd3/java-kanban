@@ -1,3 +1,4 @@
+import java.io.File;
 import java.util.ArrayList;
 
 public class Main {
@@ -5,7 +6,9 @@ public class Main {
     public static void main(String[] args) {
 
         System.out.println("Поехали!");
-        TaskManager taskManager = Managers.getDefault();
+
+        //Читаем из файл список зад
+        FileBackedTaskManager taskManager = Managers.getDefault();
 
         // Старые прроверки
         allTestData(taskManager);
@@ -87,7 +90,7 @@ public class Main {
 
         ArrayList<SubTask> subTasks = taskManager.getAllSubTasksByEpicId(7);
         //Проверяем getAllSubTasksByEpicId
-
+/*
         //Удаляем задачу из эпика (DONE)
         System.out.println("Удаляем одну из подзадач (подзадача 4)");
         taskManager.deleteSubTaskById(8);
@@ -98,6 +101,8 @@ public class Main {
         System.out.println("Удаляем эпик 4");
         taskManager.deleteEpicById(7);
         Managers.printAllTasks(taskManager);
+        */
+
 
     }
 

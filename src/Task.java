@@ -39,13 +39,13 @@ public class Task {
 
     @Override
     public String toString() {
-        return name + "," + description + "," + id + "," + status;
+        return id + "," + TaskTypes.TASK.name() + "," + name + ","  + status + "," + description + ",";
     }
 
-    public Task fromString(String s) {
+    public static Task fromString(String s) {
         String[] parts = s.split(",");
-        Task task = new Task(parts[0], parts[1], Status.valueOf(parts[2]));
-        task.setId(Integer.parseInt(parts[3]));
+        Task task = new Task(parts[2], parts[4], Status.valueOf(parts[3]));
+        task.setId(Integer.parseInt(parts[0]));
         return task;
     }
 

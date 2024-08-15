@@ -16,13 +16,20 @@ public class SubTask extends Task {
         }
     }
 
-    public SubTask fromString(String s){
-        String[] data = s.split(";");
-        String name = data[0];
-        String description = data[1];
-        Status status = Status.valueOf(data[2]);
-        int epicId = Integer.parseInt(data[3]);
-        return new SubTask(name, description, status, epicId);
+    @Override
+    public String toString() {
+        return getId() + "," + TaskTypes.SUBTASK.name() + "," + getName() + ","  + getStatus() + "," + getDescription() + "," + getEpicId();
+    }
+
+    public static SubTask fromString(String s){
+        String[] data = s.split(",");
+        String name = data[2];
+        String description = data[4];
+        Status status = Status.valueOf(data[3]);
+        int epicId = Integer.parseInt(data[5]);
+        SubTask subTask = new SubTask(name, description, status, epicId);
+        subTask.setId(Integer.parseInt(data[0]));
+        return subTask;
     }
 
 
