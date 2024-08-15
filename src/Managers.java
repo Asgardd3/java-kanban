@@ -3,7 +3,7 @@ import java.io.File;
 public abstract class Managers {
     public static FileBackedTaskManager getDefault() {
         File file = new File("tasks.txt");
-        if(file.exists() && !file.isDirectory()) {
+        if (file.exists() && !file.isDirectory()) {
             return  FileBackedTaskManager.loadFromFile(file);
         } else {
             return new FileBackedTaskManager(file.getPath());
