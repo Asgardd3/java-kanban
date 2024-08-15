@@ -42,8 +42,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             }
 
             return taskManager;
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             System.out.println(e.getMessage());
             return new FileBackedTaskManager(file.getPath());
         }
@@ -51,7 +50,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
 
     //Создайте метод save без параметров — он будет сохранять текущее состояние менеджера в указанный файл.
     public void save() throws ManagerSaveException {
-        try (Writer out = new FileWriter(this.filePath)){
+        try (Writer out = new FileWriter(this.filePath)) {
             //Сохраняем список задач в файл
             //Сохраняем заголовок
             out.write("id,type,name,status,description,epic\n");
@@ -67,8 +66,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
                 out.write(epic + "\n");
             }
 
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             throw new ManagerSaveException(e.getMessage());
         }
     }
@@ -78,8 +76,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         super.addTask(task);
         try {
             save();
-        }
-        catch (ManagerSaveException e) {
+        } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -89,8 +86,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         super.updateTask(task);
         try {
             save();
-        }
-        catch (ManagerSaveException e) {
+        } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -100,8 +96,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         super.deleteTaskById(id);
         try {
             save();
-        }
-        catch (ManagerSaveException e) {
+        } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -111,8 +106,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         super.addSubTask(subTask);
         try {
             save();
-        }
-        catch (ManagerSaveException e) {
+        } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -122,8 +116,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         super.deleteAllTasks();
         try {
             save();
-        }
-        catch (ManagerSaveException e) {
+        } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -133,8 +126,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         super.deleteAllSubTasks();
         try {
             save();
-        }
-        catch (ManagerSaveException e) {
+        } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -144,8 +136,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         super.updateSubTask(subTask);
         try {
             save();
-        }
-        catch (ManagerSaveException e) {
+        } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -155,8 +146,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         super.deleteSubTaskById(id);
         try {
             save();
-        }
-        catch (ManagerSaveException e) {
+        } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -166,8 +156,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         super.addEpic(epic);
         try {
             save();
-        }
-        catch (ManagerSaveException e) {
+        } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -177,8 +166,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         super.deleteAllEpics();
         try {
             save();
-        }
-        catch (ManagerSaveException e) {
+        } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -188,8 +176,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         super.updateEpic(epic);
         try {
             save();
-        }
-        catch (ManagerSaveException e) {
+        } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -199,8 +186,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         super.deleteEpicById(id);
         try {
             save();
-        }
-        catch (ManagerSaveException e) {
+        } catch (ManagerSaveException e) {
             System.out.println(e.getMessage());
         }
     }
