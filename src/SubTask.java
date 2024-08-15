@@ -21,7 +21,7 @@ public class SubTask extends Task {
         return getId() + "," + TaskTypes.SUBTASK.name() + "," + getName() + ","  + getStatus() + "," + getDescription() + "," + getEpicId();
     }
 
-    public static SubTask fromString(String s){
+    public static SubTask fromString(String s) {
         String[] data = s.split(",");
         String name = data[2];
         String description = data[4];
@@ -31,6 +31,4 @@ public class SubTask extends Task {
         subTask.setId(Integer.parseInt(data[0]));
         return subTask;
     }
-
-
 }
