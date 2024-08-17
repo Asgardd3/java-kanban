@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import managers.*;
+import tasks.*;
+
+
 class EpicTest {
     private TaskManager taskManager;
 
@@ -15,7 +19,7 @@ class EpicTest {
     }
 
     @Test
-    void shouldBeEqualsEpicsWithSameId() {
+    void shouldBeEqualsEpicsWithSameId() throws ManagerSaveException {
         Epic epic1 = new Epic("Эпик 1", "Описание 1"); //taskManager.addEpic();
         Epic epic2 = new Epic("Эпик 2", "Описание 1");
         this.taskManager.addEpic(epic1);
@@ -24,7 +28,7 @@ class EpicTest {
     }
 
     @Test
-    void shouldBeNegativeAddEpicInHisSubtasks () {
+    void shouldBeNegativeAddEpicInHisSubtasks() throws ManagerSaveException {
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
         //TaskManager taskManager = new InMemoryTaskManager();
         this.taskManager.addEpic(epic1);

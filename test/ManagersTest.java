@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import managers.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -7,7 +8,7 @@ class ManagersTest {
     private TaskManager taskManager;
 
     @BeforeEach
-    void beforeEach() {
+    void beforeEach() throws ManagerSaveException {
         taskManager = Managers.getDefault();
     }
     @Test

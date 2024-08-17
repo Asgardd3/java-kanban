@@ -1,5 +1,7 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import managers.*;
+import tasks.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -10,7 +12,7 @@ class SubTaskTest {
         taskManager = new InMemoryTaskManager();
     }
     @Test
-    void shouldBeEqualsSubTasksWithSameId() {
+    void shouldBeEqualsSubTasksWithSameId() throws ManagerSaveException {
         //Создаем 2 задачи с одинаковыми id
         Epic epic1  = new Epic("Эпик  1",  "Описание  1");
         taskManager.addEpic(epic1);
@@ -23,7 +25,7 @@ class SubTaskTest {
     }
 
     @Test
-    void shouldBeNegativeMakeSubtaskHisEpic () {
+    void shouldBeNegativeMakeSubtaskHisEpic() throws ManagerSaveException {
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic1);
         SubTask subTask2 = new SubTask("Задача  2  (jUnit)",   "Описание  1", Status.NEW,1);
