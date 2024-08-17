@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
-    <file url="file://$PROJECT_DIR$/src/InMemoryHistoryManager.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/InMemoryTaskManager.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/Main.java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/Managers.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/managers/InMemoryHistoryManager.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/managers/InMemoryTaskManager.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/managers/Managers.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test/EpicTest.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test/InMemoryHistoryManagerTest.java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/test/InMemoryTaskManagerTest.java" charset="UTF-8" />

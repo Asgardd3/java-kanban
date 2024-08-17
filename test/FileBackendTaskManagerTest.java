@@ -6,6 +6,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 
+import managers.*;
+import tasks.*;
+
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class FileBackendTaskManagerTest {

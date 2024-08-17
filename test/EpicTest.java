@@ -6,6 +6,10 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
+import managers.*;
+import tasks.*;
+
+
 class EpicTest {
     private TaskManager taskManager;
 

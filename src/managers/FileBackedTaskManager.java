@@ -1,3 +1,6 @@
+package managers;
+
+import tasks.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.Writer;
@@ -19,7 +22,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         return filePath;
     }
 
-    static FileBackedTaskManager loadFromFile(File file) {
+    public static FileBackedTaskManager loadFromFile(File file) {
         FileBackedTaskManager taskManager = new FileBackedTaskManager(file.getPath());
         try {
             //Пропустить первую строку файла
