@@ -9,7 +9,7 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class FileBackedTaskManager extends InMemoryTaskManager implements TaskManager {
+public class FileBackedTaskManager extends InMemoryTaskManager {
 
     //Пусть новый менеджер получает файл для автосохранения в своём конструкторе и сохраняет его в поле.
     private String filePath;
@@ -22,7 +22,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
         return filePath;
     }
 
-    public static FileBackedTaskManager loadFromFile(File file) {
+    public static FileBackedTaskManager loadFromFile(File file) throws ManagerSaveException {
         FileBackedTaskManager taskManager = new FileBackedTaskManager(file.getPath());
         try {
             //Пропустить первую строку файла
@@ -47,12 +47,12 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
             return taskManager;
         } catch (IOException e) {
             System.out.println(e.getMessage());
-            return new FileBackedTaskManager(file.getPath());
+            throw new ManagerSaveException("Can't read form file: " + file.getName());
         }
     }
 
     //Создайте метод save без параметров — он будет сохранять текущее состояние менеджера в указанный файл.
-    public void save() throws ManagerSaveException {
+    protected void save() throws ManagerSaveException {
         try (Writer out = new FileWriter(this.filePath)) {
             //Сохраняем список задач в файл
             //Сохраняем заголовок
@@ -75,122 +75,74 @@ public class FileBackedTaskManager extends InMemoryTaskManager implements TaskMa
     }
 
     @Override
-    public void addTask(Task task) {
+    public void addTask(Task task) throws ManagerSaveException {
         super.addTask(task);
-        try {
-            save();
-        } catch (ManagerSaveException e) {
-            System.out.println(e.getMessage());
-        }
+        save();
     }
 
     @Override
-    public void updateTask(Task task) {
+    public void updateTask(Task task) throws ManagerSaveException {
         super.updateTask(task);
-        try {
-            save();
-        } catch (ManagerSaveException e) {
-            System.out.println(e.getMessage());
-        }
+        save();
     }
 
     @Override
-    public void deleteTaskById(int id) {
+    public void deleteTaskById(int id) throws ManagerSaveException {
         super.deleteTaskById(id);
-        try {
-            save();
-        } catch (ManagerSaveException e) {
-            System.out.println(e.getMessage());
-        }
+        save();
     }
 
     @Override
-    public void addSubTask(SubTask subTask) {
+    public void addSubTask(SubTask subTask) throws ManagerSaveException {
         super.addSubTask(subTask);
-        try {
-            save();
-        } catch (ManagerSaveException e) {
-            System.out.println(e.getMessage());
-        }
+        save();
     }
 
     @Override
-    public void deleteAllTasks() {
+    public void deleteAllTasks() throws ManagerSaveException {
         super.deleteAllTasks();
-        try {
-            save();
-        } catch (ManagerSaveException e) {
-            System.out.println(e.getMessage());
-        }
+        save();
     }
 
     @Override
-    public void deleteAllSubTasks() {
+    public void deleteAllSubTasks() throws ManagerSaveException {
         super.deleteAllSubTasks();
-        try {
-            save();
-        } catch (ManagerSaveException e) {
-            System.out.println(e.getMessage());
-        }
+        save();
     }
 
     @Override
-    public void updateSubTask(SubTask subTask) {
+    public void updateSubTask(SubTask subTask) throws ManagerSaveException {
         super.updateSubTask(subTask);
-        try {
-            save();
-        } catch (ManagerSaveException e) {
-            System.out.println(e.getMessage());
-        }
+        save();
     }
 
     @Override
-    public void deleteSubTaskById(int id) {
+    public void deleteSubTaskById(int id) throws ManagerSaveException {
         super.deleteSubTaskById(id);
-        try {
-            save();
-        } catch (ManagerSaveException e) {
-            System.out.println(e.getMessage());
-        }
+        save();
     }
 
     @Override
-    public void addEpic(Epic epic) {
+    public void addEpic(Epic epic) throws ManagerSaveException {
         super.addEpic(epic);
-        try {
-            save();
-        } catch (ManagerSaveException e) {
-            System.out.println(e.getMessage());
-        }
+        save();
     }
 
     @Override
-    public void deleteAllEpics() {
+    public void deleteAllEpics() throws ManagerSaveException {
         super.deleteAllEpics();
-        try {
-            save();
-        } catch (ManagerSaveException e) {
-            System.out.println(e.getMessage());
-        }
+        save();
     }
 
     @Override
-    public void updateEpic(Epic epic) {
+    public void updateEpic(Epic epic) throws ManagerSaveException {
         super.updateEpic(epic);
-        try {
-            save();
-        } catch (ManagerSaveException e) {
-            System.out.println(e.getMessage());
-        }
+        save();
     }
 
     @Override
-    public void deleteEpicById(int id) {
+    public void deleteEpicById(int id) throws ManagerSaveException {
         super.deleteEpicById(id);
-        try {
-            save();
-        } catch (ManagerSaveException e) {
-            System.out.println(e.getMessage());
-        }
+        save();
     }
 }

@@ -10,41 +10,41 @@ public interface TaskManager {
 
     //Задачи
 
-    void addTask(Task task);
+    void addTask(Task task) throws ManagerSaveException;
 
     ArrayList<Task> getAllTasks();
 
-    void deleteAllTasks();
+    void deleteAllTasks() throws ManagerSaveException;
 
     Task getTaskById(int id);
 
-    void updateTask(Task task);
+    void updateTask(Task task) throws ManagerSaveException;
 
-    void deleteTaskById(int id);
+    void deleteTaskById(int id) throws ManagerSaveException;
 
-    void addSubTask(SubTask subTask);
+    void addSubTask(SubTask subTask) throws ManagerSaveException;
 
     ArrayList<SubTask> getAllSubTasks();
 
-    void deleteAllSubTasks();
+    void deleteAllSubTasks() throws ManagerSaveException;
 
     SubTask getSubTaskById(int id);
 
-    void updateSubTask(SubTask subTask);
+    void updateSubTask(SubTask subTask) throws ManagerSaveException;
 
-    void deleteSubTaskById(int id);
+    void deleteSubTaskById(int id) throws ManagerSaveException;
 
-    void addEpic(Epic epic);
+    void addEpic(Epic epic) throws ManagerSaveException;
 
     ArrayList<Epic> getAllEpics();
 
-    void deleteAllEpics();
+    void deleteAllEpics() throws ManagerSaveException;
 
     Epic getEpicById(int id);
 
-    void updateEpic(Epic epic);
+    void updateEpic(Epic epic) throws ManagerSaveException;
 
-    void deleteEpicById(int id);
+    void deleteEpicById(int id) throws ManagerSaveException;
 
     ArrayList<SubTask> getAllSubTasksByEpicId(int id);
 }

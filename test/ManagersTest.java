@@ -8,7 +8,7 @@ class ManagersTest {
     private TaskManager taskManager;
 
     @BeforeEach
-    void beforeEach() {
+    void beforeEach() throws ManagerSaveException {
         taskManager = Managers.getDefault();
     }
     @Test

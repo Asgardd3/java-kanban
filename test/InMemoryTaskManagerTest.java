@@ -15,7 +15,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void addTask() {
+    void addTask() throws ManagerSaveException {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
         taskManager.addTask(task);
         int taskId = task.getId();
@@ -32,14 +32,14 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getTaskById() {
+    void getTaskById() throws ManagerSaveException {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW);
         taskManager.addTask(task);
         assertNotNull(taskManager.getTaskById(task.getId()));
     }
 
     @Test
-    void addSubTask() {
+    void addSubTask() throws ManagerSaveException {
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic1);
         SubTask subTask = new SubTask("Подзадача 1", "Описание 1",  Status.NEW,epic1.getId());
@@ -58,7 +58,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getSubTaskById() {
+    void getSubTaskById() throws ManagerSaveException {
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic1);
         SubTask subTask = new SubTask("Подзадача 1", "Описание 1",  Status.NEW,epic1.getId());
@@ -67,7 +67,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void addEpic() {
+    void addEpic() throws ManagerSaveException {
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic1);
         int epicId = epic1.getId();
@@ -84,14 +84,14 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void getEpicById() {
+    void getEpicById() throws ManagerSaveException {
         Epic epic = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic);
         assertNotNull(taskManager.getEpicById(epic.getId()));
     }
 
     @Test
-    void shouldBeIncrIdNumber()  {
+    void shouldBeIncrIdNumber() throws ManagerSaveException {
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic1);
         assertEquals(epic1.getId(),1);
@@ -115,7 +115,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldBeFieldsTasksNotChangedWhenCreate() {
+    void shouldBeFieldsTasksNotChangedWhenCreate() throws ManagerSaveException {
 
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic1);
@@ -133,7 +133,7 @@ class InMemoryTaskManagerTest {
 
     //Удаляемые подзадачи не должны хранить внутри себя старые id.
     @Test
-    void shouldSubtasksNotHaveOldId () {
+    void shouldSubtasksNotHaveOldId() throws ManagerSaveException {
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic1);
         SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1",  Status.NEW, epic1.getId());
@@ -143,7 +143,7 @@ class InMemoryTaskManagerTest {
 
     }
     @Test
-    void shouldEpicsNotHaveUnusableId () {
+    void shouldEpicsNotHaveUnusableId() throws ManagerSaveException {
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic1);
         SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1",  Status.NEW, epic1.getId());
@@ -153,7 +153,7 @@ class InMemoryTaskManagerTest {
     }
 
     @Test
-    void shouldTasksChanged() {
+    void shouldTasksChanged() throws ManagerSaveException {
         Task task1 = new Task("Задача 1", "Описание 1", Status.NEW);
         taskManager.addTask(task1);
         task1.setId(10);
