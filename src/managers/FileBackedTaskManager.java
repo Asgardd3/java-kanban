@@ -22,8 +22,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return filePath;
     }
 
-    public static FileBackedTaskManager loadFromFile(File file) throws ManagerSaveException {
-        FileBackedTaskManager taskManager = new FileBackedTaskManager(file.getPath());
+    public static TaskManager loadFromFile(File file) throws ManagerSaveException {
+        TaskManager taskManager = new FileBackedTaskManager(file.getPath());
         try {
             //Пропустить первую строку файла
             String fileStr = Files.readString(file.toPath());

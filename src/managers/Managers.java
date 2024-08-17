@@ -4,7 +4,7 @@ import java.io.File;
 import tasks.*;
 
 public abstract class Managers {
-    public static FileBackedTaskManager getDefault() throws ManagerSaveException {
+    public static TaskManager getDefault() throws ManagerSaveException {
         File file = new File("tasks.txt");
         if (file.exists() && !file.isDirectory()) {
             return  FileBackedTaskManager.loadFromFile(file);

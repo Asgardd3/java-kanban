@@ -11,7 +11,7 @@ public class Main {
 
         //Читаем из файл список зад
         try {
-            FileBackedTaskManager taskManager = Managers.getDefault();
+            TaskManager taskManager = Managers.getDefault();
 
             // Старые прроверки
             allTestData(taskManager);

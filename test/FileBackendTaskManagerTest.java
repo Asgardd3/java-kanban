@@ -183,7 +183,7 @@ class FileBackendTaskManagerTest {
         Boolean isOkLoadEmptyFile = false;
         try {
             File nFile = new File(taskManager.getFilePath());
-            FileBackedTaskManager taskManagerN = FileBackedTaskManager.loadFromFile(nFile);
+            TaskManager taskManagerN = FileBackedTaskManager.loadFromFile(nFile);
             isOkLoadEmptyFile = true;
             assertTrue(isOkLoadEmptyFile);
         }
@@ -230,7 +230,7 @@ class FileBackendTaskManagerTest {
         taskManager.addTask(task3);
 
         try {
-            FileBackedTaskManager taskManagerN = FileBackedTaskManager.loadFromFile(new File(taskManager.getFilePath()));
+            TaskManager taskManagerN = FileBackedTaskManager.loadFromFile(new File(taskManager.getFilePath()));
             System.out.println(taskManagerN.getAllTasks().size());
             assertEquals(taskManagerN.getAllTasks().size(),3);
         }
