@@ -212,6 +212,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     private void evaluateEpicStatus(Epic epic) {
+
         //Ели у эпика нет подзадач или они все NEW, то статус должен быть NEW
         //Проверить, есть ли задачи в статусе NEW, если нет, то статус должен стать NEW
         boolean isActualHaveTasksNew = false;
@@ -235,6 +236,16 @@ public class InMemoryTaskManager implements TaskManager {
                     isActualHaveTasksInProgress = true;
 
             }
+            if (subTasks.get(subTaskId).getStartTime() < epic.getStartTime()) {
+                epic.setStartTime(subTasks.get(subTaskId).getStartTime());
+            }
+
+            if (subTasks.get(subTaskId).getEndTime() > epic.getEndTime()) {
+                epic.setEndTime(subTasks.get(subTaskId).getEndTime());
+            }
+
+            epic.setDuration(epic.getDuration().plus(subTasks.get(subTaskId).getDuration()));
+
         }
 
         if (isActualHaveTasksNew && !isActualHaveTasksDone && !isActualHaveTasksInProgress) { //epics.size() == 0 ||
@@ -248,6 +259,17 @@ public class InMemoryTaskManager implements TaskManager {
             return;
         }
         epic.setStatus(Status.IN_PROGRESS);
+
+        //Дата старта эпика
+
+        //Продолжительность эпика — сумма продолжительностей всех его подзадач. Время начала — дата старта самой ранней подзадачи, а время завершения — время окончания самой поздней из задач
+        //сумма продолжительностей всех подзадач
+        //дата начала самой ранней подзадачи
+        //дата окончания самой поздней подзадачи
+
+
+
+
     }
 }
 

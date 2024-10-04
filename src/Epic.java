@@ -1,7 +1,9 @@
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class Epic extends Task {
     private ArrayList<Integer> subTasksIds = new ArrayList<>();
+    private LocalDateTime endTime;
 
     public Epic(String name, String description) {
         super(name, description, Status.NEW);
@@ -26,4 +28,10 @@ public class Epic extends Task {
     public void removeAll() {
         this.subTasksIds.clear();
     }
+
+    @Override
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
 }

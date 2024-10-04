@@ -9,6 +9,7 @@ public class Task {
     private Status status;
     private Duration duration;
     private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
 
     public int getId() {
@@ -92,4 +93,7 @@ public class Task {
         return startTime.plus(duration);
     }
 
+    public void setEndTime(LocalDateTime endTime) {
+        this.endTime = endTime;
+    }
 }
