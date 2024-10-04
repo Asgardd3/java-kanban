@@ -1,6 +1,9 @@
+package tasks;
 import java.time.Duration;
 import java.time.LocalDateTime;
+
 import java.util.Objects;
+
 
 public class Task {
     private String name;
@@ -45,12 +48,14 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Info{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", id=" + id +
-                ", status=" + status +
-                '}';
+        return id + "," + TaskTypes.TASK.name() + "," + name + "," + status + "," + description + ",";
+    }
+
+    public static Task fromString(String s) {
+        String[] parts = s.split(",");
+        Task task = new Task(parts[2], parts[4], Status.valueOf(parts[3]));
+        task.setId(Integer.parseInt(parts[0]));
+        return task;
     }
 
     public String getName() {

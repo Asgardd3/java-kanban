@@ -1,5 +1,9 @@
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import managers.*;
+import tasks.*;
+
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +20,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldSaveHistoryPrevEpicsGet () {
+    void shouldSaveHistoryPrevEpicsGet() throws ManagerSaveException {
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic1);
         taskManager.getEpicById(epic1.getId());
@@ -25,7 +29,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldSaveHistoryPrevTasksGet() {
+    void shouldSaveHistoryPrevTasksGet() throws ManagerSaveException {
         Task task1 = new Task("Задача 1", "Описание 1", Status.NEW);
         taskManager.addTask(task1);
         taskManager.getTaskById(task1.getId());
@@ -35,7 +39,7 @@ class InMemoryHistoryManagerTest {
     }
 
     @Test
-    void shouldSaveHistoryPrevSubTasksGet() {
+    void shouldSaveHistoryPrevSubTasksGet() throws ManagerSaveException {
         Epic epic2 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic2);
         SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1",  Status.NEW, epic2.getId());

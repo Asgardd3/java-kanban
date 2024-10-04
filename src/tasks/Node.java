@@ -1,4 +1,6 @@
-class Node {
+package tasks;
+
+public class Node {
 
     public Task data;
     public Node next;
