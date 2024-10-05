@@ -39,7 +39,7 @@ public class Task {
         return Objects.hash(getName(), getDescription(), id);
     }
 
-    public Task(String name, String description, Status status) {
+    public Task(String name, String description, Status status, LocalDateTime startTime, Duration duration) {
         this.name = name;
         this.description = description;
         //this.id = id;
@@ -48,12 +48,21 @@ public class Task {
 
     @Override
     public String toString() {
-        return id + "," + TaskTypes.TASK.name() + "," + name + "," + status + "," + description + ",";
+        return id + "," + TaskTypes.TASK.name() + "," + name + "," + status + "," + description + "," + startTime + "," + endTime;
     }
 
     public static Task fromString(String s) {
         String[] parts = s.split(",");
-        Task task = new Task(parts[2], parts[4], Status.valueOf(parts[3]));
+        LocalDateTime startTime = null;
+        Duration duration = null;
+        if (!parts[5].equals("null")) {
+            startTime = LocalDateTime.parse(parts[5]);
+        }
+
+        if (!parts[6].equals("null")) {
+            duration = Duration.parse(parts[6]);
+        }
+        Task task = new Task(parts[2], parts[4], Status.valueOf(parts[3]), startTime, duration);
         task.setId(Integer.parseInt(parts[0]));
         return task;
     }
@@ -95,6 +104,9 @@ public class Task {
     }
 
     public LocalDateTime getEndTime() {
+        if (startTime == null || duration == null) {
+            return null;
+        }
         return startTime.plus(duration);
     }
 

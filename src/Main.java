@@ -69,8 +69,8 @@ public class Main {
             System.out.println("Добавляем 2 подзадачи и 1 эпик");
 
             taskManager.addEpic(new Epic("Эпик 4", "Описание 4"));
-            taskManager.addSubTask(new SubTask("Подзадача 4", "Описание 4", Status.NEW, 7));
-            taskManager.addSubTask(new SubTask("Подзадача 5", "Описание 5", Status.NEW, 7));
+            taskManager.addSubTask(new SubTask("Подзадача 4", "Описание 4", Status.NEW, 7, null, null));
+            taskManager.addSubTask(new SubTask("Подзадача 5", "Описание 5", Status.NEW, 7, null, null));
             Managers.printAllTasks(taskManager);
             //taskManager.addSubTaskToEpic(taskManager.getEpicById(9), taskManager.getSubTaskById(8));
             Managers.printAllTasks(taskManager);
@@ -132,11 +132,11 @@ public class Main {
             taskManager.addEpic(new Epic("Эпик 1", "Описание 1"));
             taskManager.addEpic(new Epic("Эпик 1", "Описание 1"));
             //Создаем задачи
-            taskManager.addTask(new Task("Задача 1", "Описание 1", Status.NEW));
-            taskManager.addTask(new Task("Задача 2", "Описание 2", Status.NEW));
+            taskManager.addTask(new Task("Задача 1", "Описание 1", Status.NEW, null, null));
+            taskManager.addTask(new Task("Задача 2", "Описание 2", Status.NEW, null, null));
             //Создаем подзадачи
-            taskManager.addSubTask(new SubTask("Подзадача 1", "Описание 1", Status.NEW, 2));
-            taskManager.addSubTask(new SubTask("Подзадача 2", "Описание 2", Status.NEW, 2));
+            taskManager.addSubTask(new SubTask("Подзадача 1", "Описание 1", Status.NEW, 2, null, null));
+            taskManager.addSubTask(new SubTask("Подзадача 2", "Описание 2", Status.NEW, 2, null, null));
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }

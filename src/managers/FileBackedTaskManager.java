@@ -57,7 +57,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         try (Writer out = new FileWriter(this.filePath)) {
             //Сохраняем список задач в файл
             //Сохраняем заголовок
-            out.write("id,type,name,status,description,epic\n");
+            out.write("id,type,name,status,description,epic,duration,startTime\n");
             for (Task task : getAllTasks()) {
                 out.write(task + "\n");
             }

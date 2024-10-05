@@ -4,7 +4,8 @@ import managers.*;
 import tasks.*;
 
 
-
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +31,7 @@ class InMemoryHistoryManagerTest {
 
     @Test
     void shouldSaveHistoryPrevTasksGet() throws ManagerSaveException {
-        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW);
+        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
         taskManager.addTask(task1);
         taskManager.getTaskById(task1.getId());
         taskManager.getTaskById(task1.getId());
@@ -42,7 +43,7 @@ class InMemoryHistoryManagerTest {
     void shouldSaveHistoryPrevSubTasksGet() throws ManagerSaveException {
         Epic epic2 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic2);
-        SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1",  Status.NEW, epic2.getId());
+        SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1", Status.NEW, epic2.getId(), LocalDateTime.now(), Duration.ofMinutes(30));
         taskManager.addSubTask(subTask1);
         taskManager.getSubTaskById(subTask1.getId());
         taskManager.getSubTaskById(subTask1.getId());
@@ -53,7 +54,7 @@ class InMemoryHistoryManagerTest {
     @Test
     void add() {
 
-        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW);
+        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
         historyManager.add(task1);
         final List<Task> history = historyManager.getHistory();
         assertNotNull(history, "История не пустая.");
@@ -62,7 +63,7 @@ class InMemoryHistoryManagerTest {
     @Test
     void remove() {
 
-        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW);
+        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
         historyManager.add(task1);
         historyManager.remove(task1.getId());
         final List<Task> history = historyManager.getHistory();

@@ -7,7 +7,7 @@ public class Epic extends Task {
     private LocalDateTime endTime;
 
     public Epic(String name, String description) {
-        super(name, description, Status.NEW);
+        super(name, description, Status.NEW, null, null);
     }
 
     public ArrayList<Integer> getSubTasksIds() {
@@ -28,7 +28,7 @@ public class Epic extends Task {
 
     @Override
     public String toString() {
-        return getId() + "," + TaskTypes.EPIC.name() + "," + getName() + "," + getStatus() + "," + getDescription() + ",";
+        return getId() + "," + TaskTypes.EPIC.name() + "," + getName() + "," + getStatus() + "," + getDescription() + "," + getDuration() + "," + getStartTime();
     }
 
     public static Epic fromString(String string) {
