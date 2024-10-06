@@ -12,7 +12,6 @@ public class Task {
     private Status status;
     private Duration duration;
     private LocalDateTime startTime;
-    private LocalDateTime endTime;
 
 
     public int getId() {
@@ -44,11 +43,13 @@ public class Task {
         this.description = description;
         //this.id = id;
         this.status = status;
+        this.startTime = startTime;
+        this.duration = duration;
     }
 
     @Override
     public String toString() {
-        return id + "," + TaskTypes.TASK.name() + "," + name + "," + status + "," + description + "," + startTime + "," + endTime;
+        return id + "," + TaskTypes.TASK.name() + "," + name + "," + status + "," + description + "," + startTime + "," + duration;
     }
 
     public static Task fromString(String s) {
@@ -110,7 +111,4 @@ public class Task {
         return startTime.plus(duration);
     }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
 }
