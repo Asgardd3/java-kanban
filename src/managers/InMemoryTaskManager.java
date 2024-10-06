@@ -46,7 +46,7 @@ public class InMemoryTaskManager implements TaskManager {
         addInPrioinzedTasks(task);
         //Ищем по методу isOverlapTasks с помощью stream APi
         if (prioritizedTasks.stream().anyMatch(taskT -> isOverlapTasks(task, taskT))) {
-            throw new TaskOverlapException("Ошибка: пересечение задач");
+            throw new TaskOverloadException("Ошибка: пересечение задач");
         }
     }
 
