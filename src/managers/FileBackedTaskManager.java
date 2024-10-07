@@ -36,7 +36,9 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     case TASK:
                         taskManager.addTask(Task.fromString(str));
                         break;
+
                     case SUBTASK:
+
                         taskManager.addSubTask(SubTask.fromString(str));
                         break;
                     case EPIC:
@@ -49,6 +51,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         } catch (IOException e) {
             System.out.println(e.getMessage());
             throw new ManagerSaveException("Can't read form file: " + file.getName());
+        } catch (TaskOverloadException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -76,7 +80,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void addTask(Task task) throws ManagerSaveException {
+    public void addTask(Task task) throws ManagerSaveException, TaskOverloadException {
         super.addTask(task);
         save();
     }
@@ -94,7 +98,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void addSubTask(SubTask subTask) throws ManagerSaveException {
+    public void addSubTask(SubTask subTask) throws ManagerSaveException, TaskOverloadException {
         super.addSubTask(subTask);
         save();
     }

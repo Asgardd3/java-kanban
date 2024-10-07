@@ -29,9 +29,13 @@ class FileBackendTaskManagerTest {
     }
 
     @Test
-    void addTask() throws ManagerSaveException {
+    void addTask() throws ManagerSaveException, TaskOverloadException {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addTask(task);
+        try {
+            taskManager.addTask(task);
+        } catch (TaskOverloadException e) {
+            fail();
+        }
         int taskId = task.getId();
         Task savedTask = taskManager.getTaskById(taskId);
 
@@ -46,18 +50,26 @@ class FileBackendTaskManagerTest {
     }
 
     @Test
-    void getTaskById() throws ManagerSaveException {
+    void getTaskById() throws ManagerSaveException, TaskOverloadException {
         Task task = new Task("Test addNewTask", "Test addNewTask description", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addTask(task);
+        try {
+            taskManager.addTask(task);
+        } catch (TaskOverloadException e) {
+            fail();
+        }
         assertNotNull(taskManager.getTaskById(task.getId()));
     }
 
     @Test
-    void addSubTask() throws ManagerSaveException {
+    void addSubTask() throws ManagerSaveException, TaskOverloadException {
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic1);
         SubTask subTask = new SubTask("Подзадача 1", "Описание 1", Status.NEW, epic1.getId(), LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addSubTask(subTask);
+        try {
+            taskManager.addSubTask(subTask);
+        } catch (TaskOverloadException e) {
+            fail();
+        }
         int SubTaskId = subTask.getId();
         Task savedSubTask = taskManager.getSubTaskById(SubTaskId);
 
@@ -72,11 +84,15 @@ class FileBackendTaskManagerTest {
     }
 
     @Test
-    void getSubTaskById() throws ManagerSaveException {
+    void getSubTaskById() throws ManagerSaveException, TaskOverloadException {
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic1);
         SubTask subTask = new SubTask("Подзадача 1", "Описание 1", Status.NEW, epic1.getId(), LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addSubTask(subTask);
+        try {
+            taskManager.addSubTask(subTask);
+        } catch (TaskOverloadException e) {
+            fail();
+        }
         assertNotNull(taskManager.getSubTaskById(subTask.getId()));
     }
 
@@ -105,72 +121,92 @@ class FileBackendTaskManagerTest {
     }
 
     @Test
-    void shouldBeIncrIdNumber() throws ManagerSaveException {
-        Epic epic1 = new Epic("Эпик 1", "Описание 1");
-        taskManager.addEpic(epic1);
-        assertEquals(epic1.getId(), 1);
-        Epic epic2 = new Epic("Эпик 2", "Описание 2");
-        taskManager.addEpic(epic2);
-        assertEquals(epic2.getId() - epic1.getId(), 1);
-        //Создаем задачи
-        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addTask(task1);
-        assertEquals(task1.getId() - epic2.getId(), 1);
-        Task task2 = new Task("Задача 2", "Описание 2", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addTask(task2);
-        assertEquals(task2.getId() - task1.getId(), 1);
-        //Создаем подзадачи
-        SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1", Status.NEW, 2, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addSubTask(subTask1);
-        assertEquals(subTask1.getId() - task2.getId(), 1);
-        SubTask subTask2 = new SubTask("Подзадача 2", "Описание 2", Status.NEW, 2, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addSubTask(subTask2);
-        assertEquals(subTask2.getId() - subTask1.getId(), 1);
+    void shouldBeIncrIdNumber() throws ManagerSaveException, TaskOverloadException {
+        try {
+            Epic epic1 = new Epic("Эпик 1", "Описание 1");
+            taskManager.addEpic(epic1);
+            assertEquals(epic1.getId(), 1);
+            Epic epic2 = new Epic("Эпик 2", "Описание 2");
+            taskManager.addEpic(epic2);
+            assertEquals(epic2.getId() - epic1.getId(), 1);
+            //Создаем задачи
+            Task task1 = new Task("Задача 1", "Описание 1", Status.NEW, LocalDateTime.now().plusHours(1), Duration.ofMinutes(30));
+            taskManager.addTask(task1);
+            assertEquals(task1.getId() - epic2.getId(), 1);
+            Task task2 = new Task("Задача 2", "Описание 2", Status.NEW, LocalDateTime.now().plusHours(2), Duration.ofMinutes(30));
+            taskManager.addTask(task2);
+            assertEquals(task2.getId() - task1.getId(), 1);
+            //Создаем подзадачи
+            SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1", Status.NEW, 2, LocalDateTime.now().plusHours(3), Duration.ofMinutes(30));
+            taskManager.addSubTask(subTask1);
+            assertEquals(subTask1.getId() - task2.getId(), 1);
+            SubTask subTask2 = new SubTask("Подзадача 2", "Описание 2", Status.NEW, 2, LocalDateTime.now().plusHours(4), Duration.ofMinutes(30));
+            taskManager.addSubTask(subTask2);
+            assertEquals(subTask2.getId() - subTask1.getId(), 1);
+        } catch (TaskOverloadException e) {
+            fail();
+        }
     }
 
     @Test
-    void shouldBeFieldsTasksNotChangedWhenCreate() throws ManagerSaveException {
+    void shouldBeFieldsTasksNotChangedWhenCreate() throws ManagerSaveException, TaskOverloadException {
+        try {
+            Epic epic1 = new Epic("Эпик 1", "Описание 1");
+            taskManager.addEpic(epic1);
+            assertTrue(epic1.getName().equals("Эпик 1") & epic1.getDescription().equals("Описание 1"));
 
-        Epic epic1 = new Epic("Эпик 1", "Описание 1");
-        taskManager.addEpic(epic1);
-        assertTrue(epic1.getName().equals("Эпик 1") & epic1.getDescription().equals("Описание 1"));
+            Task task1 = new Task("Задача 1", "Описание 1", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
+            taskManager.addTask(task1);
+            assertTrue(task1.getName().equals("Задача 1") & task1.getDescription().equals("Описание 1"));
 
-        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addTask(task1);
-        assertTrue(task1.getName().equals("Задача 1") & task1.getDescription().equals("Описание 1"));
-
-        SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1", Status.NEW, 2, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addSubTask(subTask1);
-        assertTrue(subTask1.getName().equals("Подзадача 1") & subTask1.getDescription().equals("Описание 1"));
-
+            SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1", Status.NEW, 2, LocalDateTime.now(), Duration.ofMinutes(30));
+            taskManager.addSubTask(subTask1);
+            assertTrue(subTask1.getName().equals("Подзадача 1") & subTask1.getDescription().equals("Описание 1"));
+        } catch (TaskOverloadException e) {
+            fail();
+        }
     }
 
     //Удаляемые подзадачи не должны хранить внутри себя старые id.
     @Test
-    void shouldSubtasksNotHaveOldId() throws ManagerSaveException {
+    void shouldSubtasksNotHaveOldId() throws ManagerSaveException, TaskOverloadException {
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic1);
         SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1", Status.NEW, epic1.getId(), LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addSubTask(subTask1);
+        try {
+            taskManager.addSubTask(subTask1);
+        } catch (TaskOverloadException e) {
+            fail();
+        }
+        ;
+
         taskManager.deleteEpicById(epic1.getId());
         assertEquals(taskManager.getAllSubTasks().size(), 0);
 
     }
 
     @Test
-    void shouldEpicsNotHaveUnusableId() throws ManagerSaveException {
+    void shouldEpicsNotHaveUnusableId() throws ManagerSaveException, TaskOverloadException {
         Epic epic1 = new Epic("Эпик 1", "Описание 1");
         taskManager.addEpic(epic1);
         SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1", Status.NEW, epic1.getId(), LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addSubTask(subTask1);
+        try {
+            taskManager.addSubTask(subTask1);
+        } catch (TaskOverloadException e) {
+            fail();
+        }
         taskManager.deleteSubTaskById(subTask1.getId());
         assertEquals(taskManager.getEpicById(epic1.getId()).getSubTasksIds().size(), 0);
     }
 
     @Test
-    void shouldTasksChanged() throws ManagerSaveException {
+    void shouldTasksChanged() throws ManagerSaveException, TaskOverloadException {
         Task task1 = new Task("Задача 1", "Описание 1", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addTask(task1);
+        try {
+            taskManager.addTask(task1);
+        } catch (TaskOverloadException e) {
+            fail();
+        }
         task1.setId(10);
         assertEquals(task1.getId(), 10);
         task1.setName("Новое имя");
@@ -197,13 +233,18 @@ class FileBackendTaskManagerTest {
     }
 
     @Test
-    void shouldBeOkSaveFewTasksInFile() throws ManagerSaveException {
-        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addTask(task1);
-        Task task2 = new Task("Задача 2", "Описание 2", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addTask(task2);
-        Task task3 = new Task("Задача 3", "Описание 3", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addTask(task3);
+    void shouldBeOkSaveFewTasksInFile() throws ManagerSaveException, TaskOverloadException {
+        try {
+            Task task1 = new Task("Задача 1", "Описание 1", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
+            taskManager.addTask(task1);
+            Task task2 = new Task("Задача 2", "Описание 2", Status.NEW, LocalDateTime.now().plusHours(1), Duration.ofMinutes(30));
+            taskManager.addTask(task2);
+            Task task3 = new Task("Задача 3", "Описание 3", Status.NEW, LocalDateTime.now().plusHours(2), Duration.ofMinutes(30));
+            taskManager.addTask(task3);
+        } catch (TaskOverloadException e) {
+            fail();
+        }
+
         //Проверяем количество строк в файле (должно быть 4 - 3 задачи + заголовок)
         try {
             File nFile = new File(taskManager.getFilePath());
@@ -222,13 +263,17 @@ class FileBackendTaskManagerTest {
     }
 
     @Test
-    void shouldBeOkLoadFewTasksFromFile() throws ManagerSaveException {
-        Task task1 = new Task("Задача 1", "Описание 1", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addTask(task1);
-        Task task2 = new Task("Задача 2", "Описание 2", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addTask(task2);
-        Task task3 = new Task("Задача 3", "Описание 3", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
-        taskManager.addTask(task3);
+    void shouldBeOkLoadFewTasksFromFile() throws ManagerSaveException, TaskOverloadException {
+        try {
+            Task task1 = new Task("Задача 1", "Описание 1", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
+            taskManager.addTask(task1);
+            Task task2 = new Task("Задача 2", "Описание 2", Status.NEW, LocalDateTime.now().plusHours(1), Duration.ofMinutes(30));
+            taskManager.addTask(task2);
+            Task task3 = new Task("Задача 3", "Описание 3", Status.NEW, LocalDateTime.now().plusHours(2), Duration.ofMinutes(30));
+            taskManager.addTask(task3);
+        } catch (TaskOverloadException e) {
+            fail();
+        }
 
         try {
             TaskManager taskManagerN = FileBackedTaskManager.loadFromFile(new File(taskManager.getFilePath()));

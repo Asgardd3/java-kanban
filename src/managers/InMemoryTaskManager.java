@@ -40,7 +40,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     //Задачи
     @Override
-    public void addTask(Task task) throws ManagerSaveException {
+    public void addTask(Task task) throws ManagerSaveException, TaskOverloadException {
         task.setId(getId());
         tasks.put(task.getId(), task);
         addInPrioinzedTasks(task);
@@ -104,7 +104,7 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     @Override
-    public void addSubTask(SubTask subTask) throws ManagerSaveException {
+    public void addSubTask(SubTask subTask) throws ManagerSaveException, TaskOverloadException {
         subTask.setId(getId());
         if (epics.containsKey(subTask.getEpicId())) {
             subTasks.put(subTask.getId(), subTask);
@@ -113,9 +113,12 @@ public class InMemoryTaskManager implements TaskManager {
             evaluateEpicStatus(epic);
             addInPrioinzedTasks(subTask);
         }
-        if (prioritizedTasks.stream().anyMatch(taskT -> isOverlapTasks(subTask, taskT))) {
-            throw new ManagerSaveException("Ошибка: пересечение задач");
+
+        if (prioritizedTasks.stream().anyMatch(taskT -> isOverlapTasks(subTask, taskT)) && prioritizedTasks.size() > 1) {
+            throw new TaskOverloadException("Ошибка: пересечение задач");
         }
+
+
     }
 
     @Override
@@ -248,8 +251,8 @@ public class InMemoryTaskManager implements TaskManager {
     }
 
     public Boolean isOverlapTasks(Task taskF, Task taskS) {
-        return taskF.getEndTime().isAfter(taskS.getStartTime()) ||
-                taskS.getEndTime().isAfter(taskF.getStartTime());
+        return taskF != taskS && (taskF.getEndTime().isAfter(taskS.getStartTime()) &&
+                taskS.getEndTime().isAfter(taskF.getStartTime()));
     }
 
 
