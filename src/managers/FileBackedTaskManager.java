@@ -23,36 +23,58 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         return filePath;
     }
 
-    public static TaskManager loadFromFile(File file) throws ManagerSaveException {
+    public static TaskManager loadFromFile(File file) throws ManagerSaveException, TaskOverloadException {
         TaskManager taskManager = new FileBackedTaskManager(file.getPath());
         try {
             //Пропустить первую строку файла
             String fileStr = Files.readString(file.toPath());
             ArrayList<String> fileStrList = new ArrayList<>(Arrays.asList(fileStr.split("\n")));
             fileStrList.remove(0);
-            for (String str : fileStrList) {
-                String[] parts = str.split(",");
-                switch (TaskTypes.valueOf(parts[1])) {
-                    case TASK:
-                        taskManager.addTask(Task.fromString(str));
-                        break;
 
-                    case SUBTASK:
+            fileStrList.stream()
+                    //.map(str -> str.split(","))
+                    .map(str -> {
+                        String[] parts = str.split(",");
+                        TaskTypes type = TaskTypes.valueOf(parts[1]);
+                        return switch (type) {
+                            case TASK -> Task.fromString(str);
+                            case SUBTASK -> SubTask.fromString(str);
+                            case EPIC -> Epic.fromString(str);
+                            default -> throw new IllegalArgumentException("Unknown task type: " + type);
+                        };
+                    })
+                    .forEach(task -> {
+                        if (task instanceof Task) {
+                            try {
+                                taskManager.addTask((Task) task);
+                            } catch (ManagerSaveException e) {
+                                throw new RuntimeException(e);
+                            } catch (TaskOverloadException e) {
+                                throw new RuntimeException(e);
+                            }
+                        } else if (task instanceof SubTask) {
+                            try {
+                                taskManager.addSubTask((SubTask) task);
+                            } catch (ManagerSaveException e) {
+                                throw new RuntimeException(e);
+                            } catch (TaskOverloadException e) {
+                                throw new RuntimeException(e);
+                            }
+                        } else if (task instanceof Epic) {
+                            try {
+                                taskManager.addEpic((Epic) task);
+                            } catch (ManagerSaveException e) {
+                                throw new RuntimeException(e);
+                            }
+                        }
+                    });
 
-                        taskManager.addSubTask(SubTask.fromString(str));
-                        break;
-                    case EPIC:
-                        taskManager.addEpic(Epic.fromString(str));
-                        break;
-                }
-            }
+
 
             return taskManager;
         } catch (IOException e) {
             System.out.println(e.getMessage());
             throw new ManagerSaveException("Can't read form file: " + file.getName());
-        } catch (TaskOverloadException e) {
-            throw new RuntimeException(e);
         }
     }
 
@@ -62,17 +84,34 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             //Сохраняем список задач в файл
             //Сохраняем заголовок
             out.write("id,type,name,status,description,epic,duration,startTime\n");
-            for (Task task : getAllTasks()) {
-                out.write(task + "\n");
-            }
+            getAllTasks()
+                    .forEach(task -> {
+                        try {
+                            out.write(task + "\n");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
 
-            for (SubTask subtask : getAllSubTasks()) {
-                out.write(subtask + "\n");
-            }
+            getAllSubTasks()
+                    .forEach(subtask -> {
+                        try {
+                            out.write(subtask + "\n");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
 
-            for (Epic epic : getAllEpics()) {
-                out.write(epic + "\n");
-            }
+
+            getAllEpics()
+                    .forEach(epic -> {
+                        try {
+                            out.write(epic + "\n");
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    });
+
 
         } catch (IOException e) {
             throw new ManagerSaveException(e.getMessage());
