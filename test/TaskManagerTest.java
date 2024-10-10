@@ -213,4 +213,36 @@ abstract class TaskManagerTest<T extends TaskManager> {
         task1.setStatus(Status.DONE);
         assertEquals(task1.getStatus(), Status.DONE);
     }
+
+    @Test
+    void shouldSubTasksHaveEpic() throws ManagerSaveException, TaskOverloadException {
+        Epic epic1 = new Epic("Эпик 1", "Описание 1");
+        taskManager.addEpic(epic1);
+        SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1", Status.NEW, epic1.getId(), LocalDateTime.now(), Duration.ofMinutes(30));
+        try {
+            taskManager.addSubTask(subTask1);
+        } catch (TaskOverloadException e) {
+            fail();
+        }
+        assertEquals(taskManager.getSubTaskById(subTask1.getId()).getEpicId(), epic1.getId());
+    }
+
+    @Test
+    void shouldSubtasksNotOverlap() throws ManagerSaveException, TaskOverloadException {
+        SubTask subTask1 = new SubTask("Подзадача 1", "Описание 1", Status.NEW, 1, LocalDateTime.now(), Duration.ofMinutes(30));
+        try {
+            taskManager.addSubTask(subTask1);
+        } catch (TaskOverloadException e) {
+            fail();
+        }
+        SubTask subTask2 = new SubTask("Подзадача 2", "Описание 2", Status.NEW, 1, LocalDateTime.now(), Duration.ofMinutes(30));
+        try {
+            taskManager.addSubTask(subTask2);
+        } catch (TaskOverloadException e) {
+            fail();
+        }
+        assertEquals(taskManager.getAllSubTasks().size(), 1);
+    }
+
+
 }
