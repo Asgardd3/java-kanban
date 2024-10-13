@@ -1,24 +1,28 @@
+import managers.InMemoryTaskManager;
+import managers.ManagerSaveException;
+import managers.TaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.Assertions.*;
-import managers.*;
-import tasks.*;
-
+import tasks.Status;
+import tasks.Task;
+import tasks.TaskOverloadException;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 class TaskTest {
     private TaskManager taskManager;
     private TaskManager taskManager2;
 
     @BeforeEach
-    void beforeEach(){
+    void beforeEach() {
         taskManager = new InMemoryTaskManager();
         taskManager2 = new InMemoryTaskManager();
     }//проверьте, что экземпляры класса Task равны друг другу, если равен их id;
+
     @Test
     void shouldBeTwoTasksInListAfterAddTwoTasks() throws ManagerSaveException, TaskOverloadException {
         //Создаем 2 задачи
@@ -30,6 +34,7 @@ class TaskTest {
         }
         assertEquals(taskManager.getAllTasks().size(), 2);
     }
+
     @Test
     void shouldBeEqualsTasksWithSameId() throws ManagerSaveException, TaskOverloadException {
         //Создаем 2 задачи с одинаковыми id
@@ -44,5 +49,5 @@ class TaskTest {
         }
     }
 
-    }
+}
 

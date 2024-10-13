@@ -1,4 +1,3 @@
-import managers.InMemoryTaskManager;
 import managers.ManagerSaveException;
 import managers.TaskManager;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +9,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 abstract class TaskManagerTest<T extends TaskManager> {
     T taskManager;

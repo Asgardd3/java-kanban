@@ -1,12 +1,10 @@
+import managers.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import managers.*;
 import tasks.*;
-
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -14,6 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class InMemoryHistoryManagerTest {
     private TaskManager taskManager;
     private HistoryManager historyManager;
+
     @BeforeEach
     void beforeEach() {
         taskManager = new InMemoryTaskManager();
@@ -26,7 +25,7 @@ class InMemoryHistoryManagerTest {
         taskManager.addEpic(epic1);
         taskManager.getEpicById(epic1.getId());
         taskManager.getEpicById(epic1.getId());
-        assertEquals(taskManager.getHistory().size(),1);
+        assertEquals(taskManager.getHistory().size(), 1);
     }
 
     @Test
@@ -41,7 +40,7 @@ class InMemoryHistoryManagerTest {
         //taskManager.addTask(task1);
         taskManager.getTaskById(task1.getId());
         taskManager.getTaskById(task1.getId());
-        assertEquals(taskManager.getHistory().size(),1);
+        assertEquals(taskManager.getHistory().size(), 1);
 
     }
 
@@ -59,7 +58,7 @@ class InMemoryHistoryManagerTest {
 
         taskManager.getSubTaskById(subTask1.getId());
         taskManager.getSubTaskById(subTask1.getId());
-        assertEquals(taskManager.getHistory().size(),1);
+        assertEquals(taskManager.getHistory().size(), 1);
 
     }
 
@@ -72,6 +71,7 @@ class InMemoryHistoryManagerTest {
         assertNotNull(history, "История не пустая.");
         assertEquals(1, history.size(), "История не пустая.");
     }
+
     @Test
     void remove() {
 

@@ -4,8 +4,8 @@ import tasks.*;
 
 import java.io.File;
 import java.io.FileWriter;
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,10 +17,6 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
 
     public FileBackedTaskManager(String filePath) {
         this.filePath = filePath;
-    }
-
-    public String getFilePath() {
-        return filePath;
     }
 
     public static TaskManager loadFromFile(File file) throws ManagerSaveException, TaskOverloadException {
@@ -70,12 +66,15 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                     });
 
 
-
             return taskManager;
         } catch (IOException e) {
             System.out.println(e.getMessage());
             throw new ManagerSaveException("Can't read form file: " + file.getName());
         }
+    }
+
+    public String getFilePath() {
+        return filePath;
     }
 
     //Создайте метод save без параметров — он будет сохранять текущее состояние менеджера в указанный файл.

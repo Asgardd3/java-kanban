@@ -23,7 +23,7 @@ public class InMemoryTaskManager implements TaskManager {
         return historyManager.getHistory();
     }
 
-    private void addHistory(Task task)  {
+    private void addHistory(Task task) {
         historyManager.add(task);
     }
 
@@ -73,7 +73,7 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public Task getTaskById(int id) {
-        Task task  = tasks.get(id);
+        Task task = tasks.get(id);
         addHistory(task);
         return task;
     }
@@ -168,7 +168,6 @@ public class InMemoryTaskManager implements TaskManager {
         }
 
 
-
     }
     //Ищем, в каком эпике есть данная подзадача и
     // обновляем его статус
@@ -229,7 +228,7 @@ public class InMemoryTaskManager implements TaskManager {
     @Override
     public void updateEpic(Epic epic) throws ManagerSaveException {
         //Пооользователь не может переопределить статус эпика
-        Epic epicUpd  = epics.get(epic.getId());
+        Epic epicUpd = epics.get(epic.getId());
         epicUpd.setName(epic.getName());
         epicUpd.setDescription(epic.getDescription());
     }
@@ -342,8 +341,6 @@ public class InMemoryTaskManager implements TaskManager {
         //сумма продолжительностей всех подзадач
         //дата начала самой ранней подзадачи
         //дата окончания самой поздней подзадачи
-
-
 
 
     }

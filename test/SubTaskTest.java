@@ -1,7 +1,12 @@
+import managers.InMemoryTaskManager;
+import managers.ManagerSaveException;
+import managers.TaskManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import managers.*;
-import tasks.*;
+import tasks.Epic;
+import tasks.Status;
+import tasks.SubTask;
+import tasks.TaskOverloadException;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -10,14 +15,16 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SubTaskTest {
     private TaskManager taskManager;
+
     @BeforeEach
     void beforeEach() {
         taskManager = new InMemoryTaskManager();
     }
+
     @Test
     void shouldBeEqualsSubTasksWithSameId() throws ManagerSaveException, TaskOverloadException {
         //Создаем 2 задачи с одинаковыми id
-        Epic epic1  = new Epic("Эпик  1",  "Описание  1");
+        Epic epic1 = new Epic("Эпик  1", "Описание  1");
         taskManager.addEpic(epic1);
         SubTask subTask1 = new SubTask("Задача  1  (jUnit)", "Описание  1", Status.NEW, 1, LocalDateTime.now(), Duration.ofMinutes(30));
         SubTask subTask2 = new SubTask("Задача  2  (jUnit)", "Описание  1", Status.NEW, 1, LocalDateTime.now().plus(Duration.ofMinutes(40)), Duration.ofMinutes(30));
