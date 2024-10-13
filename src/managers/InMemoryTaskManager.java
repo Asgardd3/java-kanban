@@ -66,7 +66,7 @@ public class InMemoryTaskManager implements TaskManager {
         tasks.values()
                 .forEach(task -> {
                     historyManager.remove(task.getId());
-                    prioritizedTasks.remove(task.getId());
+                    prioritizedTasks.remove(task);
                 });
         tasks.clear();
     }
@@ -82,7 +82,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void updateTask(Task task) throws ManagerSaveException {
         if (tasks.containsKey(task.getId())) {
             tasks.put(task.getId(), task);
-            prioritizedTasks.remove(task.getId());
+            prioritizedTasks.remove(task);
             addInPrioinzedTasks(task);
         } else {
             System.out.println("Задачи с такой ID(" + task.getId() + ") не существует");
@@ -92,9 +92,10 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteTaskById(int id) throws ManagerSaveException {
+        prioritizedTasks.remove(getTaskById(id));
         tasks.remove(id);
         historyManager.remove(id);
-        prioritizedTasks.remove(id);
+
     }
 
     //Подзадачи
@@ -115,6 +116,7 @@ public class InMemoryTaskManager implements TaskManager {
             addInPrioinzedTasks(subTask);
         }
 
+
         if (prioritizedTasks.stream().anyMatch(taskT -> isOverlapTasks(subTask, taskT)) && prioritizedTasks.size() > 1) {
             throw new TaskOverloadException("Ошибка: пересечение задач");
         }
@@ -132,7 +134,7 @@ public class InMemoryTaskManager implements TaskManager {
         subTasks.values()
                 .forEach(subTask -> {
                     historyManager.remove(subTask.getId());
-                    prioritizedTasks.remove(subTask.getId());
+                    prioritizedTasks.remove(subTask);
                 });
         subTasks.clear();
         epics.values()
@@ -155,7 +157,7 @@ public class InMemoryTaskManager implements TaskManager {
 
         if (subTasks.containsKey(subTask.getId())) {
             subTasks.put(subTask.getId(), subTask);
-            prioritizedTasks.remove(subTask.getId());
+            prioritizedTasks.remove(subTask);
             addInPrioinzedTasks(subTask);
             if (epics.get(subTask.getEpicId()) != null) {
                 evaluateEpicStatus(epics.get(subTask.getEpicId()));
