@@ -27,34 +27,21 @@ class FileBackendTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> 
 
     @Test
     void shouldBeOkSaveAndLoadEmptyFile() {
-        Boolean isOkLoadEmptyFile = false;
-        try {
+        assertDoesNotThrow(() -> {
             File nFile = new File(taskManager.getFilePath());
             TaskManager taskManagerN = FileBackedTaskManager.loadFromFile(nFile);
-            isOkLoadEmptyFile = true;
-            assertTrue(isOkLoadEmptyFile);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            isOkLoadEmptyFile = false;
-        }
-        assertTrue(isOkLoadEmptyFile);
+        }, "Ошибка при попытке загрузки пустого файла");
     }
 
     @Test
     void shouldBeOkSaveFewTasksInFile() throws ManagerSaveException, TaskOverloadException {
-        try {
+        assertDoesNotThrow(() -> {
             Task task1 = new Task("Задача 1", "Описание 1", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
             taskManager.addTask(task1);
             Task task2 = new Task("Задача 2", "Описание 2", Status.NEW, LocalDateTime.now().plusHours(1), Duration.ofMinutes(30));
             taskManager.addTask(task2);
             Task task3 = new Task("Задача 3", "Описание 3", Status.NEW, LocalDateTime.now().plusHours(2), Duration.ofMinutes(30));
             taskManager.addTask(task3);
-        } catch (TaskOverloadException e) {
-            fail();
-        }
-
-        //Проверяем количество строк в файле (должно быть 4 - 3 задачи + заголовок)
-        try {
             File nFile = new File(taskManager.getFilePath());
             FileReader fileReader = new FileReader(nFile);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -63,34 +50,29 @@ class FileBackendTaskManagerTest extends TaskManagerTest<FileBackedTaskManager> 
             while ((line = bufferedReader.readLine()) != null) {
                 count++;
             }
+            if (count != 4) {
+                throw new Exception();
+            }
             assertEquals(count, 4);
-        } catch (Exception e) {
-            fail();
-        }
+        }, "Сохранение нескольких задач");
 
     }
 
     @Test
     void shouldBeOkLoadFewTasksFromFile() throws ManagerSaveException, TaskOverloadException {
-        try {
+        assertDoesNotThrow(() -> {
             Task task1 = new Task("Задача 1", "Описание 1", Status.NEW, LocalDateTime.now(), Duration.ofMinutes(30));
             taskManager.addTask(task1);
             Task task2 = new Task("Задача 2", "Описание 2", Status.NEW, LocalDateTime.now().plusHours(1), Duration.ofMinutes(30));
             taskManager.addTask(task2);
             Task task3 = new Task("Задача 3", "Описание 3", Status.NEW, LocalDateTime.now().plusHours(2), Duration.ofMinutes(30));
             taskManager.addTask(task3);
-        } catch (TaskOverloadException e) {
-            fail();
-        }
-
-        try {
             TaskManager taskManagerN = FileBackedTaskManager.loadFromFile(new File(taskManager.getFilePath()));
             System.out.println(taskManagerN.getAllTasks().size());
-            assertEquals(taskManagerN.getAllTasks().size(), 3);
-        } catch (Exception e) {
-            System.out.println(e.getMessage());
-            fail();
-        }
+            if (taskManagerN.getAllTasks().size() != 3) {
+                throw new Exception();
+            }
+        }, "Ошибка при загрузке нескольких задач из файла");
     }
 }
 //
