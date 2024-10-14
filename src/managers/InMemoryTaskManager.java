@@ -8,9 +8,9 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class InMemoryTaskManager implements TaskManager {
 
     private int id = 1;
-    private Map<Integer, Task> tasks = new HashMap<Integer, Task>();
-    private Map<Integer, SubTask> subTasks = new HashMap<Integer, SubTask>();
-    private Map<Integer, Epic> epics = new HashMap<>();
+    protected Map<Integer, Task> tasks = new HashMap<Integer, Task>();
+    protected Map<Integer, SubTask> subTasks = new HashMap<Integer, SubTask>();
+    protected Map<Integer, Epic> epics = new HashMap<>();
     private HistoryManager historyManager = Managers.getDefaultHistory();
     private TreeSet<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(
                     Task::getStartTime,
@@ -31,7 +31,7 @@ public class InMemoryTaskManager implements TaskManager {
         return this.id++;
     }
 
-    private void addInPrioinzedTasks(Task task) {
+    private void addInPrioritizedTasks(Task task) {
         //Если не задана startTime, то не добавляем в treeset
         if (task.getStartTime() == null) {
             return;
@@ -44,7 +44,7 @@ public class InMemoryTaskManager implements TaskManager {
     public void addTask(Task task) throws ManagerSaveException, TaskOverloadException {
         task.setId(getId());
         tasks.put(task.getId(), task);
-        addInPrioinzedTasks(task);
+        addInPrioritizedTasks(task);
         //Ищем по методу isOverlapTasks с помощью stream APi
         if (prioritizedTasks.stream().anyMatch(taskT -> isOverlapTasks(task, taskT))) {
             throw new TaskOverloadException("Ошибка: пересечение задач");
@@ -83,7 +83,7 @@ public class InMemoryTaskManager implements TaskManager {
         if (tasks.containsKey(task.getId())) {
             tasks.put(task.getId(), task);
             prioritizedTasks.remove(task);
-            addInPrioinzedTasks(task);
+            addInPrioritizedTasks(task);
         } else {
             System.out.println("Задачи с такой ID(" + task.getId() + ") не существует");
 
@@ -92,8 +92,8 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteTaskById(int id) throws ManagerSaveException {
-        prioritizedTasks.remove(getTaskById(id));
-        tasks.remove(id);
+        Task removedTask = tasks.remove(id);
+        prioritizedTasks.remove(removedTask);
         historyManager.remove(id);
 
     }
@@ -112,8 +112,8 @@ public class InMemoryTaskManager implements TaskManager {
             subTasks.put(subTask.getId(), subTask);
             Epic epic = epics.get(subTask.getEpicId());
             epic.addSubTasksId(subTask.getId());
-            evaluateEpicStatus(epic);
-            addInPrioinzedTasks(subTask);
+            updateEpicAdditProps(epic);
+            addInPrioritizedTasks(subTask);
         }
 
 
@@ -140,7 +140,7 @@ public class InMemoryTaskManager implements TaskManager {
         epics.values()
                 .forEach(epic -> {
                     epic.removeAll();
-                    evaluateEpicStatus(epic);
+                    updateEpicAdditProps(epic);
                 });
 
 
@@ -158,9 +158,9 @@ public class InMemoryTaskManager implements TaskManager {
         if (subTasks.containsKey(subTask.getId())) {
             subTasks.put(subTask.getId(), subTask);
             prioritizedTasks.remove(subTask);
-            addInPrioinzedTasks(subTask);
+            addInPrioritizedTasks(subTask);
             if (epics.get(subTask.getEpicId()) != null) {
-                evaluateEpicStatus(epics.get(subTask.getEpicId()));
+                updateEpicAdditProps(epics.get(subTask.getEpicId()));
             }
         } else {
             System.out.println("Подзадачи с такой ID(" + subTask.getId() + ") не существует");
@@ -174,11 +174,11 @@ public class InMemoryTaskManager implements TaskManager {
 
     @Override
     public void deleteSubTaskById(int id) throws ManagerSaveException {
-        prioritizedTasks.remove(getSubTaskById(id));
-        SubTask subTask = subTasks.remove(id);
-        Epic epic = epics.get(subTask.getEpicId());
-        epic.removeSubTasksId(subTask.getId());
-        evaluateEpicStatus(epic);
+        SubTask removedSubTask = subTasks.remove(id);
+        prioritizedTasks.remove(removedSubTask);
+        Epic epic = epics.get(removedSubTask.getEpicId());
+        epic.removeSubTasksId(removedSubTask.getId());
+        updateEpicAdditProps(epic);
         historyManager.remove(id);
 
     }
@@ -266,33 +266,55 @@ public class InMemoryTaskManager implements TaskManager {
         return prioritizedTasks;
     }
 
+    public void updateEpicAdditProps(Epic epic) {
+        evaluateEpicStatus(epic);
+        evaluateEpicSetTime(epic);
+    }
 
     private void evaluateEpicStatus(Epic epic) {
-
         //Ели у эпика нет подзадач или они все NEW, то статус должен быть NEW
         //Проверить, есть ли задачи в статусе NEW, если нет, то статус должен стать NEW
-        AtomicBoolean isActualHaveTasksNew = new AtomicBoolean(false);
-        AtomicBoolean isActualHaveTasksDone = new AtomicBoolean(false);
-        AtomicBoolean isActualHaveTasksInProgress = new AtomicBoolean(false);
+        boolean isActualHaveTasksNew = false;
+        boolean isActualHaveTasksDone = false;
+        boolean isActualHaveTasksInProgress = false;
 
         if (epic.getSubTasksIds() == null || epic.getSubTasksIds().size() == 0) { //epics.size() == 0 ||
             epic.setStatus(Status.NEW);
             return;
         }
 
+        for (int subTaskId : epic.getSubTasksIds()) {
+            switch (subTasks.get(subTaskId).getStatus()) {
+                case NEW:
+                    isActualHaveTasksNew = true;
+                    break;
+                case DONE:
+                    isActualHaveTasksDone = true;
+                    break;
+                case IN_PROGRESS:
+                    isActualHaveTasksInProgress = true;
+
+            }
+        }
+
+        if (isActualHaveTasksNew && !isActualHaveTasksDone && !isActualHaveTasksInProgress) { //epics.size() == 0 ||
+            epic.setStatus(Status.NEW);
+            return;
+        }
+
+        //Если все подзадачи DONE, то эпик считается завершённым
+        if (!isActualHaveTasksNew && isActualHaveTasksDone && !isActualHaveTasksInProgress) {
+            epic.setStatus(Status.DONE);
+            return;
+        }
+        epic.setStatus(Status.IN_PROGRESS);
+    }
+
+    private void evaluateEpicSetTime(Epic epic) {
+
         epic.getSubTasksIds()
                 .forEach(subTaskId -> {
                     SubTask subTask = subTasks.get(subTaskId);
-                    switch (subTask.getStatus()) {
-                        case NEW:
-                            isActualHaveTasksNew.set(true);
-                            break;
-                        case DONE:
-                            isActualHaveTasksDone.set(true);
-                            break;
-                        case IN_PROGRESS:
-                            isActualHaveTasksInProgress.set(true);
-                    }
 
                     if (epic.getStartTime() == null || subTask.getStartTime() != null) {
                         epic.setStartTime(subTask.getStartTime());
@@ -322,27 +344,6 @@ public class InMemoryTaskManager implements TaskManager {
                         epic.setDuration(epic.getDuration().plus(subTask.getDuration()));
                     }
                 });
-
-        if (isActualHaveTasksNew.get() && !isActualHaveTasksDone.get() && !isActualHaveTasksInProgress.get()) { //epics.size() == 0 ||
-            epic.setStatus(Status.NEW);
-            return;
-        }
-
-        //Если все подзадачи DONE, то эпик считается завершённым
-        if (!isActualHaveTasksNew.get() && isActualHaveTasksDone.get() && !isActualHaveTasksInProgress.get()) {
-            epic.setStatus(Status.DONE);
-            return;
-        }
-        epic.setStatus(Status.IN_PROGRESS);
-
-        //Дата старта эпика
-
-        //Продолжительность эпика — сумма продолжительностей всех его подзадач. Время начала — дата старта самой ранней подзадачи, а время завершения — время окончания самой поздней из задач
-        //сумма продолжительностей всех подзадач
-        //дата начала самой ранней подзадачи
-        //дата окончания самой поздней подзадачи
-
-
     }
 }
 

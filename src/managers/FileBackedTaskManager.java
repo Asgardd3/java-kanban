@@ -28,41 +28,41 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             fileStrList.remove(0);
 
             fileStrList.stream()
-                    //.map(str -> str.split(","))
-                    .map(str -> {
+                    .forEach(str -> {
                         String[] parts = str.split(",");
                         TaskTypes type = TaskTypes.valueOf(parts[1]);
-                        return switch (type) {
-                            case TASK -> Task.fromString(str);
-                            case SUBTASK -> SubTask.fromString(str);
-                            case EPIC -> Epic.fromString(str);
-                            default -> throw new IllegalArgumentException("Unknown task type: " + type);
+
+                        switch (type) {
+                            case TASK:
+                                Task task = Task.fromString(str);
+                                try {
+                                    taskManager.addTask(task);
+                                } catch (ManagerSaveException e) {
+                                    throw new RuntimeException(e);
+                                } catch (TaskOverloadException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                break;
+                            case SUBTASK:
+                                SubTask subTask = SubTask.fromString(str);
+                                try {
+                                    taskManager.addSubTask(subTask);
+                                } catch (ManagerSaveException e) {
+                                    throw new RuntimeException(e);
+                                } catch (TaskOverloadException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                break;
+                            case EPIC:
+                                Epic epic = Epic.fromString(str);
+                                try {
+                                    taskManager.addEpic(epic);
+                                } catch (ManagerSaveException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                break;
                         };
-                    })
-                    .forEach(task -> {
-                        if (task instanceof Task) {
-                            try {
-                                taskManager.addTask((Task) task);
-                            } catch (ManagerSaveException e) {
-                                throw new RuntimeException(e);
-                            } catch (TaskOverloadException e) {
-                                throw new RuntimeException(e);
-                            }
-                        } else if (task instanceof SubTask) {
-                            try {
-                                taskManager.addSubTask((SubTask) task);
-                            } catch (ManagerSaveException e) {
-                                throw new RuntimeException(e);
-                            } catch (TaskOverloadException e) {
-                                throw new RuntimeException(e);
-                            }
-                        } else if (task instanceof Epic) {
-                            try {
-                                taskManager.addEpic((Epic) task);
-                            } catch (ManagerSaveException e) {
-                                throw new RuntimeException(e);
-                            }
-                        }
+
                     });
 
 
@@ -83,35 +83,27 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
             //Сохраняем список задач в файл
             //Сохраняем заголовок
             out.write("id,type,name,status,description,epic,duration,startTime\n");
-            getAllTasks()
-                    .forEach(task -> {
-                        try {
-                            out.write(task + "\n");
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-
-            getAllSubTasks()
-                    .forEach(subtask -> {
-                        try {
-                            out.write(subtask + "\n");
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-
-
-            getAllEpics()
-                    .forEach(epic -> {
-                        try {
-                            out.write(epic + "\n");
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                    });
-
-
+            tasks.values().forEach(task -> {
+                try {
+                    out.write(task + "\n");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            subTasks.values().forEach(subtask -> {
+                try {
+                    out.write(subtask + "\n");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            epics.values().forEach(epic -> {
+                try {
+                    out.write(epic + "\n");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         } catch (IOException e) {
             throw new ManagerSaveException(e.getMessage());
         }
