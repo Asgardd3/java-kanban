@@ -1,6 +1,8 @@
 package managers;
 
-import tasks.*;
+import tasks.Node;
+import tasks.Task;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +29,7 @@ public class InMemoryHistoryManager implements HistoryManager {
     }
 
     @Override
-    public void add(Task task)  {
+    public void add(Task task) {
         if (tasks.containsKey(task.getId())) {
             removeNode(tasks.get(task.getId()));
             tasks.remove(task.getId());

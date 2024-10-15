@@ -1,6 +1,10 @@
 package managers;
 
-import tasks.*;
+import tasks.Epic;
+import tasks.SubTask;
+import tasks.Task;
+import tasks.TaskOverloadException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +14,7 @@ public interface TaskManager {
 
     //Задачи
 
-    void addTask(Task task) throws ManagerSaveException;
+    void addTask(Task task) throws ManagerSaveException, TaskOverloadException;
 
     ArrayList<Task> getAllTasks();
 
@@ -22,7 +26,7 @@ public interface TaskManager {
 
     void deleteTaskById(int id) throws ManagerSaveException;
 
-    void addSubTask(SubTask subTask) throws ManagerSaveException;
+    void addSubTask(SubTask subTask) throws ManagerSaveException, TaskOverloadException;
 
     ArrayList<SubTask> getAllSubTasks();
 

@@ -1,10 +1,11 @@
 package managers;
 
 import tasks.*;
+
 import java.io.File;
 import java.io.FileWriter;
-import java.io.Writer;
 import java.io.IOException;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,31 +19,53 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         this.filePath = filePath;
     }
 
-    public String getFilePath() {
-        return filePath;
-    }
-
-    public static TaskManager loadFromFile(File file) throws ManagerSaveException {
+    public static TaskManager loadFromFile(File file) throws ManagerSaveException, TaskOverloadException {
         TaskManager taskManager = new FileBackedTaskManager(file.getPath());
         try {
             //Пропустить первую строку файла
             String fileStr = Files.readString(file.toPath());
             ArrayList<String> fileStrList = new ArrayList<>(Arrays.asList(fileStr.split("\n")));
             fileStrList.remove(0);
-            for (String str : fileStrList) {
-                String[] parts = str.split(",");
-                switch (TaskTypes.valueOf(parts[1])) {
-                    case TASK:
-                        taskManager.addTask(Task.fromString(str));
-                        break;
-                    case SUBTASK:
-                        taskManager.addSubTask(SubTask.fromString(str));
-                        break;
-                    case EPIC:
-                        taskManager.addEpic(Epic.fromString(str));
-                        break;
-                }
-            }
+
+            fileStrList.stream()
+                    .forEach(str -> {
+                        String[] parts = str.split(",");
+                        TaskTypes type = TaskTypes.valueOf(parts[1]);
+
+                        switch (type) {
+                            case TASK:
+                                Task task = Task.fromString(str);
+                                try {
+                                    taskManager.addTask(task);
+                                } catch (ManagerSaveException e) {
+                                    throw new RuntimeException(e);
+                                } catch (TaskOverloadException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                break;
+                            case SUBTASK:
+                                SubTask subTask = SubTask.fromString(str);
+                                try {
+                                    taskManager.addSubTask(subTask);
+                                } catch (ManagerSaveException e) {
+                                    throw new RuntimeException(e);
+                                } catch (TaskOverloadException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                break;
+                            case EPIC:
+                                Epic epic = Epic.fromString(str);
+                                try {
+                                    taskManager.addEpic(epic);
+                                } catch (ManagerSaveException e) {
+                                    throw new RuntimeException(e);
+                                }
+                                break;
+                        }
+                        ;
+
+                    });
+
 
             return taskManager;
         } catch (IOException e) {
@@ -51,31 +74,44 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
         }
     }
 
+    public String getFilePath() {
+        return filePath;
+    }
+
     //Создайте метод save без параметров — он будет сохранять текущее состояние менеджера в указанный файл.
     protected void save() throws ManagerSaveException {
         try (Writer out = new FileWriter(this.filePath)) {
             //Сохраняем список задач в файл
             //Сохраняем заголовок
-            out.write("id,type,name,status,description,epic\n");
-            for (Task task : getAllTasks()) {
-                out.write(task + "\n");
-            }
-
-            for (SubTask subtask : getAllSubTasks()) {
-                out.write(subtask + "\n");
-            }
-
-            for (Epic epic : getAllEpics()) {
-                out.write(epic + "\n");
-            }
-
+            out.write("id,type,name,status,description,epic,duration,startTime\n");
+            tasks.values().forEach(task -> {
+                try {
+                    out.write(task + "\n");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            subTasks.values().forEach(subtask -> {
+                try {
+                    out.write(subtask + "\n");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+            epics.values().forEach(epic -> {
+                try {
+                    out.write(epic + "\n");
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
         } catch (IOException e) {
             throw new ManagerSaveException(e.getMessage());
         }
     }
 
     @Override
-    public void addTask(Task task) throws ManagerSaveException {
+    public void addTask(Task task) throws ManagerSaveException, TaskOverloadException {
         super.addTask(task);
         save();
     }
@@ -93,7 +129,7 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
     }
 
     @Override
-    public void addSubTask(SubTask subTask) throws ManagerSaveException {
+    public void addSubTask(SubTask subTask) throws ManagerSaveException, TaskOverloadException {
         super.addSubTask(subTask);
         save();
     }
