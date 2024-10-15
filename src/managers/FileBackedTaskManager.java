@@ -61,7 +61,8 @@ public class FileBackedTaskManager extends InMemoryTaskManager {
                                     throw new RuntimeException(e);
                                 }
                                 break;
-                        };
+                        }
+                        ;
 
                     });
 

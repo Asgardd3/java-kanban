@@ -3,14 +3,13 @@ package managers;
 import tasks.*;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class InMemoryTaskManager implements TaskManager {
 
-    private int id = 1;
     protected Map<Integer, Task> tasks = new HashMap<Integer, Task>();
     protected Map<Integer, SubTask> subTasks = new HashMap<Integer, SubTask>();
     protected Map<Integer, Epic> epics = new HashMap<>();
+    private int id = 1;
     private HistoryManager historyManager = Managers.getDefaultHistory();
     private TreeSet<Task> prioritizedTasks = new TreeSet<>(Comparator.comparing(
                     Task::getStartTime,
